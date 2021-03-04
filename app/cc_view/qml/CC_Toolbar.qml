@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
+import CC 1.0
 
 import "qrc:/qml"
 
@@ -25,7 +26,7 @@ ToolBar {
             tooltip.text: qsTr("Select plugins")
 
             onClicked: {
-                console.log("TODO: Plugin selection clicked");
+                CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginSelection);
             }            
         }
         

@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
+import CC 1.0
 
 import "qrc:/qml"
 
@@ -16,8 +17,15 @@ ApplicationWindow {
         anchors.centerIn: parent
     }
 
+    Loader {
+        source: CC_GuiState.dialogQml
+        active: source !== ""
+        anchors.fill: parent
+    }        
+
     Shortcut {
-        sequences: [StandardKey.Quit]
+        sequence: "Ctrl+Q"
+        context: Qt.ApplicationShortcut
         onActivated: Qt.quit()
     }
 }

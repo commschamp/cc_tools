@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>image/app_icon.png</file>
         <file>image/plugin_select.png</file>
+        <file>qml/CC_PluginSelectDialog.qml</file>
         <file>qml/CC_Toolbar.qml</file>
         <file>qml/CC_ToolButton.qml</file>
         <file>qml/CC_Tooltip.qml</file>

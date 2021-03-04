@@ -2,7 +2,8 @@ find_package(Qt5 COMPONENTS Quick Widgets REQUIRED)
 
 set (name "cc_view")
 set (src
-    main.cpp
+    src/GuiState.cpp
+    src/main.cpp
     resources.qrc
 )
 
