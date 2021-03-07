@@ -15,8 +15,28 @@ Dialog {
     title: "Plugin Configuration"
     standardButtons: Dialog.Ok | Dialog.Cancel
 
-    Label {
-        text: qsTr("NYIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
+    ColumnLayout {
+        width: 200
+        TextField {
+            id: socketText
+            placeholderText: qsTr("Socket") + " (" + socketShortcut.sequence + ")";
+
+            Shortcut {
+                id: socketShortcut
+                sequence: "Alt+S"
+                onActivated: socketText.forceActiveFocus();
+            }
+        }
+
+        TextField {
+            id: protocolText
+            placeholderText: qsTr("Protocol");
+
+            Shortcut {
+                sequence: "Alt+P"
+                onActivated: protocolText.forceActiveFocus();
+            }
+        }                
     }
 
     onAccepted: {
