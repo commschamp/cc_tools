@@ -1,9 +1,12 @@
 set (name "cc_plugin")
 set (src
+    src/Plugin.cpp
+    src/PluginObject.cpp
     src/Socket.cpp
 )
 
 set (hdr
+    include/cc_tools/cc_plugin/Plugin.h
     include/cc_tools/cc_plugin/Socket.h
 )
 

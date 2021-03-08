@@ -81,6 +81,11 @@ void Socket::sendData(DataInfoPtr dataPtr)
     sendDataImpl(std::move(dataPtr));
 }
 
+Socket::Type Socket::getTypeImpl() const
+{
+    return Type::Socket;
+}
+
 bool Socket::startImpl()
 {
     return true;

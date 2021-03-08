@@ -13,7 +13,7 @@ PluginObject::PluginObject(QObject* p) :
 
 PluginObject::~PluginObject() = default;
 
-Type PluginObject::getType() const
+PluginObject::Type PluginObject::getType() const
 {
     return getTypeImpl();
 }

@@ -18,12 +18,12 @@
 
 #pragma once
 
-#include <memory>
 
 #include <QtCore/QObject>
-#include <QtCore/QString>
+#include <QtCore/QtPlugin>
 
 #include "cc_tools/cc_plugin/Api.h"
+#include "cc_tools/cc_plugin/PluginObject.h"
 
 namespace cc_tools
 {
@@ -31,32 +31,33 @@ namespace cc_tools
 namespace cc_plugin
 {
 
-class CC_PLUGIN_API PluginObject : public QObject
+/// @brief Interface class for plugin definition
+/// @headerfile cc_tools/cc_plugin/Plugin.h
+class CC_PLUGIN_API Plugin : public QObject
 {
-    using Base = QObject;
-    
 public:
-    enum class Type
-    {
-        Socket,
-        Filter,
-        Protocol,
-        NumOfValues
-    };
+    /// @brief Constructor
+    Plugin();
 
-    explicit PluginObject(QObject* p = nullptr);
+    /// @brief Destructor
+    virtual ~Plugin() noexcept;
 
-    virtual ~PluginObject() noexcept;
+    //void getCurrentConfig(QVariantMap& config);
+    //QVariantMap getCurrentConfig();
+    //void reconfigure(const QVariantMap& config);
 
-    Type getType() const;
+    PluginObjectPtr createObject();
 
 protected:
-    virtual Type getTypeImpl() const = 0;
+    //virtual void getCurrentConfigImpl(QVariantMap& config);
+    //virtual void reconfigureImpl(const QVariantMap& config);
+    virtual PluginObjectPtr createObjectImpl() = 0;
 };
-
-using PluginObjectPtr = std::unique_ptr<PluginObject>;
 
 } // namespace cc_plugin
 
 }  // namespace cc_tools
+
+Q_DECLARE_INTERFACE(cc_tools::cc_plugin::Plugin, "cc.Plugin")
+
 

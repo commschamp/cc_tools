@@ -15,15 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "cc_tools/cc_plugin/Plugin.h"
 
-#pragma once
-
-#include <memory>
-
-#include <QtCore/QObject>
-#include <QtCore/QString>
-
-#include "cc_tools/cc_plugin/Api.h"
+#include <cassert>
 
 namespace cc_tools
 {
@@ -31,32 +25,45 @@ namespace cc_tools
 namespace cc_plugin
 {
 
-class CC_PLUGIN_API PluginObject : public QObject
+Plugin::Plugin() = default;
+Plugin::~Plugin() noexcept = default;
+
+// void Plugin::getCurrentConfig(QVariantMap& config)
+// {
+//     getCurrentConfigImpl(config);
+// }
+
+// QVariantMap Plugin::getCurrentConfig()
+// {
+//     QVariantMap config;
+//     getCurrentConfig(config);
+//     return config;
+// }
+
+// void Plugin::reconfigure(const QVariantMap& config)
+// {
+//     reconfigureImpl(config);
+// }
+
+PluginObjectPtr Plugin::createObject()
 {
-    using Base = QObject;
-    
-public:
-    enum class Type
-    {
-        Socket,
-        Filter,
-        Protocol,
-        NumOfValues
-    };
+    auto obj = createObjectImpl();
+    assert(obj);
+    return obj;
+}
 
-    explicit PluginObject(QObject* p = nullptr);
+// void Plugin::getCurrentConfigImpl(QVariantMap& config)
+// {
+//     static_cast<void>(config);
+// }
 
-    virtual ~PluginObject() noexcept;
-
-    Type getType() const;
-
-protected:
-    virtual Type getTypeImpl() const = 0;
-};
-
-using PluginObjectPtr = std::unique_ptr<PluginObject>;
+// void Plugin::reconfigureImpl(const QVariantMap& config)
+// {
+//     static_cast<void>(config);
+// }
 
 } // namespace cc_plugin
 
 }  // namespace cc_tools
+
 

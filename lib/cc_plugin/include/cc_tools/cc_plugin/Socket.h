@@ -125,6 +125,8 @@ public:
     }
 
 protected:
+    virtual Type getTypeImpl() const override final;
+
     /// @brief Polymorphic start functionality implementation.
     /// @details Invoked by start() and default implementation does nothing.
     ///     It can be overrided by the derived class.
