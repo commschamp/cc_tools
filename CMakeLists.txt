@@ -15,4 +15,5 @@ find_package(Qt5 COMPONENTS Core Quick REQUIRED)
 
 include(GNUInstallDirs)
 
+add_subdirectory (lib)
 add_subdirectory (app)
