@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.5)
 
 project(cc_tools LANGUAGES CXX)
 
+############################################################
+option (CC_BUILD_ECHO_SOCKET "Build echo socket plugin" ON)
+############################################################
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CMAKE_AUTOUIC ON)
@@ -17,3 +21,4 @@ include(GNUInstallDirs)
 
 add_subdirectory (lib)
 add_subdirectory (app)
+add_subdirectory (plugin)
