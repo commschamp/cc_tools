@@ -12,7 +12,7 @@ add_executable (${name} ${src})
 target_compile_definitions(${name}
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
-target_link_libraries(${name} PRIVATE cc::plugin Qt5::Quick Qt5::Widgets Qt5::Core)
+target_link_libraries(${name} PRIVATE cc::app cc::plugin Qt5::Quick Qt5::Widgets Qt5::Core)
 
 install(
     TARGETS ${name}

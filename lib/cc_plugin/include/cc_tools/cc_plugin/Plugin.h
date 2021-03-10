@@ -21,6 +21,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QtPlugin>
+#include <QtCore/QVariantMap>
 
 #include "cc_tools/cc_plugin/Api.h"
 #include "cc_tools/cc_plugin/PluginObject.h"
@@ -42,15 +43,15 @@ public:
     /// @brief Destructor
     virtual ~Plugin() noexcept;
 
-    //void getCurrentConfig(QVariantMap& config);
-    //QVariantMap getCurrentConfig();
-    //void reconfigure(const QVariantMap& config);
+    void getCurrentConfig(QVariantMap& config);
+    QVariantMap getCurrentConfig();
+    void reconfigure(const QVariantMap& config);
 
     PluginObjectPtr createObject();
 
 protected:
-    //virtual void getCurrentConfigImpl(QVariantMap& config);
-    //virtual void reconfigureImpl(const QVariantMap& config);
+    virtual void getCurrentConfigImpl(QVariantMap& config);
+    virtual void reconfigureImpl(const QVariantMap& config);
     virtual PluginObjectPtr createObjectImpl() = 0;
 };
 

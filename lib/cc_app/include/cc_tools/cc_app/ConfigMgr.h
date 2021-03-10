@@ -18,46 +18,41 @@
 
 #pragma once
 
-#include <memory>
+#include <utility>
+#include <list>
 
-#include <QtCore/QObject>
 #include <QtCore/QString>
+#include <QtCore/QVariantMap>
 
-#include "cc_tools/cc_plugin/Api.h"
+#include "cc_tools/cc_app/Api.h"
 
 namespace cc_tools
 {
 
-namespace cc_plugin
+namespace cc_app
 {
 
-class CC_PLUGIN_API PluginObject : public QObject
+class CC_APP_API ConfigMgr
 {
-    using Base = QObject;
-    
 public:
-    enum class Type
-    {
-        Invalid,
-        Socket,
-        Filter,
-        Protocol,
-        NumOfValues
-    };
 
-    explicit PluginObject(QObject* p = nullptr);
+    ConfigMgr();
+    ~ConfigMgr() noexcept;
 
-    virtual ~PluginObject() noexcept;
+    const QString& getLastFile() const;
+    static const QString& getFilesFilter();
 
-    Type getType() const;
+    QVariantMap loadConfig(const QString& filename);
+    QVariantMap loadConfig(const QString& filename, bool updateAsLast);
+    bool saveConfig(const QString& filename, const QVariantMap& config);
+    bool saveConfig(const QString& filename, const QVariantMap& config, bool updateAsLast);
 
-protected:
-    virtual Type getTypeImpl() const = 0;
+private:
+    QString m_lastConfigFile;
 };
 
-using PluginObjectPtr = std::unique_ptr<PluginObject>;
-
-} // namespace cc_plugin
+} // namespace cc_app
 
 }  // namespace cc_tools
+
 

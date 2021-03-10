@@ -15,49 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
-
-#include <memory>
-
-#include <QtCore/QObject>
-#include <QtCore/QString>
 
 #include "cc_tools/cc_plugin/Api.h"
 
-namespace cc_tools
-{
-
-namespace cc_plugin
-{
-
-class CC_PLUGIN_API PluginObject : public QObject
-{
-    using Base = QObject;
-    
-public:
-    enum class Type
-    {
-        Invalid,
-        Socket,
-        Filter,
-        Protocol,
-        NumOfValues
-    };
-
-    explicit PluginObject(QObject* p = nullptr);
-
-    virtual ~PluginObject() noexcept;
-
-    Type getType() const;
-
-protected:
-    virtual Type getTypeImpl() const = 0;
-};
-
-using PluginObjectPtr = std::unique_ptr<PluginObject>;
-
-} // namespace cc_plugin
-
-}  // namespace cc_tools
-
+#define CC_APP_API CC_PLUGIN_API

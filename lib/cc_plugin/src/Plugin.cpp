@@ -28,22 +28,22 @@ namespace cc_plugin
 Plugin::Plugin() = default;
 Plugin::~Plugin() noexcept = default;
 
-// void Plugin::getCurrentConfig(QVariantMap& config)
-// {
-//     getCurrentConfigImpl(config);
-// }
+void Plugin::getCurrentConfig(QVariantMap& config)
+{
+    getCurrentConfigImpl(config);
+}
 
-// QVariantMap Plugin::getCurrentConfig()
-// {
-//     QVariantMap config;
-//     getCurrentConfig(config);
-//     return config;
-// }
+QVariantMap Plugin::getCurrentConfig()
+{
+    QVariantMap config;
+    getCurrentConfig(config);
+    return config;
+}
 
-// void Plugin::reconfigure(const QVariantMap& config)
-// {
-//     reconfigureImpl(config);
-// }
+void Plugin::reconfigure(const QVariantMap& config)
+{
+    reconfigureImpl(config);
+}
 
 PluginObjectPtr Plugin::createObject()
 {
@@ -52,15 +52,15 @@ PluginObjectPtr Plugin::createObject()
     return obj;
 }
 
-// void Plugin::getCurrentConfigImpl(QVariantMap& config)
-// {
-//     static_cast<void>(config);
-// }
+void Plugin::getCurrentConfigImpl(QVariantMap& config)
+{
+    static_cast<void>(config);
+}
 
-// void Plugin::reconfigureImpl(const QVariantMap& config)
-// {
-//     static_cast<void>(config);
-// }
+void Plugin::reconfigureImpl(const QVariantMap& config)
+{
+    static_cast<void>(config);
+}
 
 } // namespace cc_plugin
 
