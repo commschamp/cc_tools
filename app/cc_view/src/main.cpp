@@ -3,6 +3,7 @@
 #include <QQmlApplicationEngine>
 
 #include "GuiState.h"
+#include "PluginListModel.h"
 
 namespace 
 {
@@ -17,9 +18,11 @@ QObject *getGuiState(QQmlEngine *engine, QJSEngine *scriptEngine)
     return st;
 }
 
-void qmlRegisterGuiStateSingleton()
+void qmlRegisterTypes()
 {
     qmlRegisterSingletonType<cc_tools::cc_view::GuiState>("CC", 1, 0, "CC_GuiState", &getGuiState);
+
+    qmlRegisterType<cc_tools::cc_view::PluginListModel>("CC", 1, 0, "CC_PluginListModel");
 }
 
 } // namespace 
@@ -32,7 +35,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/image/app_icon.png"));
 
-    qmlRegisterGuiStateSingleton();
+    qmlRegisterTypes();
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));

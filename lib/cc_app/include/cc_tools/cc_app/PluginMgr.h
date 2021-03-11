@@ -19,7 +19,7 @@
 #pragma once
 
 #include <memory>
-#include <list>
+#include <vector>
 #include <array>
 
 #include <QtCore/QString>
@@ -51,6 +51,11 @@ public:
     public:
         using Type = cc_tools::cc_plugin::PluginObject::Type;
 
+        const QString& getIid() const
+        {
+            return m_iid;
+        }
+
         const QString& getName() const
         {
             return m_name;
@@ -78,7 +83,7 @@ public:
     };
 
     using PluginInfoPtr = std::shared_ptr<PluginInfo>;
-    using ListOfPluginInfos = std::list<PluginInfoPtr>;
+    using ListOfPluginInfos = std::vector<PluginInfoPtr>;
 
     PluginMgr();
     ~PluginMgr() noexcept;

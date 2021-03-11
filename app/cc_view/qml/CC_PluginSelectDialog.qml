@@ -15,6 +15,11 @@ Dialog {
     title: "Plugin Configuration"
     standardButtons: Dialog.Ok | Dialog.Cancel
 
+    CC_PluginListModel {
+        id: pluginListModel
+        pluginType: CC_PluginListModel.Type_Socket
+    }
+
     ColumnLayout {
         width: 200
         TextField {
