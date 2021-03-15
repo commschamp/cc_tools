@@ -22,6 +22,27 @@ PluginListModel::PluginListModel()
 
 PluginListModel::~PluginListModel() = default;
 
+QString PluginListModel::getNameOf(int idx) const
+{
+    if (m_availablePlugins.size() <= idx) {
+        assert(!"Should not happen");
+        return QString();
+    }
+
+    return m_availablePlugins[idx]->getName();
+}
+
+QString PluginListModel::getDescriptionOf(int idx) const
+{
+    if (m_availablePlugins.size() <= idx) {
+        assert(!"Should not happen");
+        return QString();
+    }
+
+    return m_availablePlugins[idx]->getDescription();
+}
+
+
 int PluginListModel::rowCount(const QModelIndex &parent) const
 {
     static_cast<void>(parent);
@@ -72,7 +93,6 @@ QHash<int, QByteArray> PluginListModel::roleNames() const
 void PluginListModel::pluginTypeChanged(int value)
 {
     static_cast<void>(value);
-    std::cout << "!!!!: New type: " << value << std::endl;
     beginResetModel();
     auto& pluginMgr = AppMgr::instance().pluginMgr();
 

@@ -15,11 +15,6 @@ Dialog {
     title: "Plugin Configuration"
     standardButtons: Dialog.Ok | Dialog.Cancel
 
-    CC_PluginListModel {
-        id: pluginListModel
-        pluginType: CC_PluginListModel.Type_Socket
-    }
-
     ColumnLayout {
         width: 200
         TextField {
@@ -30,6 +25,20 @@ Dialog {
                 id: socketShortcut
                 sequence: "Alt+S"
                 onActivated: socketText.forceActiveFocus();
+            }
+        }
+
+        CC_PluginListView {
+            Layout.fillWidth: true
+            Layout.leftMargin: 20
+            height: 200   
+            focus: true         
+
+            pluginType: CC_PluginListModel.Type_Socket
+            searchStr: socketText.text
+
+            onSigPluginSelected: {
+                socketText.text = name;
             }
         }
 

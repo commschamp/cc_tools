@@ -38,6 +38,9 @@ public:
     };
     Q_ENUM(Type);
 
+    Q_INVOKABLE QString getNameOf(int idx) const;
+    Q_INVOKABLE QString getDescriptionOf(int idx) const;
+
     CC_MEMBER(int, PluginType, =Type_Invalid)
 
 signals:
