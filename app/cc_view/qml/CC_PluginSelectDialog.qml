@@ -15,6 +15,10 @@ Dialog {
     title: "Plugin Configuration"
     standardButtons: Dialog.Ok | Dialog.Cancel
 
+    property bool okEnabled: true // TODO: should be true when applicable
+    property string okShortcut: "Enter"
+    property string cancelShortcut: "Esc"
+
     ColumnLayout {
         width: 200
         TextField {
@@ -53,6 +57,18 @@ Dialog {
         }                
     }
 
+    Shortcut {
+        id: dummyOk
+        enabled: false
+        sequence: "Alt+O"
+    }
+
+    Shortcut {
+        id: dummyCancel
+        enabled: false
+        sequence: "Alt+C"
+    }
+
     onAccepted: {
         console.log("accepted");
         CC_GuiState.activateDialog(CC_GuiState.DialogType_None);        
@@ -62,5 +78,27 @@ Dialog {
         console.log("rejected");
         CC_GuiState.activateDialog(CC_GuiState.DialogType_None);
     } 
+
+    Component.onCompleted: {
+        var okButton = footer.standardButton(Dialog.Ok);
+        okButton.enabled = Qt.binding(function() { return okEnabled; });
+
+        // The OK button has "Alt+O" shortcut, while Cancel has "Alt+C".
+        // However there is no visual indication. The code below doesn't
+        // really work.
+        
+        // okButton.hoverEnabled = true;
+        // okButton.ToolTip.text = dummyOk.nativeText;
+        // okButton.ToolTip.visible = okEnabled && okButton.hovered;
+        // okButton.ToolTip.delay = 1000;
+
+        // cancelButton = footer.standardButton(Dialog.Cancel);
+        // cancelButton.hoverEnabled = true;
+        // cancelButton.ToolTip.text = dummyCancel.nativeText;
+        // cancelButton.ToolTip.visible = cancelButton.hovered;
+        // cancelButton.ToolTip.delay = 1000;
+
+        
+    }
 }
 
