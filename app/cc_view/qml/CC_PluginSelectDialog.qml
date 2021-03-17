@@ -15,15 +15,15 @@ Dialog {
     title: "Plugin Configuration"
     standardButtons: Dialog.Ok | Dialog.Cancel
 
-    property bool okEnabled: true // TODO: should be true when applicable
-    property string okShortcut: "Enter"
-    property string cancelShortcut: "Esc"
+    property bool socketValid: false
+    property bool okEnabled: socketValid // TODO: should be true when applicable
 
     ColumnLayout {
         width: 200
         TextField {
             id: socketText
             placeholderText: qsTr("Socket") + " (" + socketShortcut.sequence + ")";
+            text: CC_GuiState.socketPluginName
 
             Shortcut {
                 id: socketShortcut
@@ -41,8 +41,13 @@ Dialog {
             pluginType: CC_PluginListModel.Type_Socket
             searchStr: socketText.text
 
-            onSigPluginSelected: {
-                socketText.text = name;
+            onSelectedNameChanged: {
+                CC_GuiState.socketPluginName = selectedName;
+            }
+
+            onPluginIidChanged: {
+                CC_GuiState.socketPluginIid = pluginIid;
+                root.socketValid = (pluginIid !== "");
             }
         }
 
@@ -55,18 +60,6 @@ Dialog {
                 onActivated: protocolText.forceActiveFocus();
             }
         }                
-    }
-
-    Shortcut {
-        id: dummyOk
-        enabled: false
-        sequence: "Alt+O"
-    }
-
-    Shortcut {
-        id: dummyCancel
-        enabled: false
-        sequence: "Alt+C"
     }
 
     onAccepted: {
@@ -86,7 +79,7 @@ Dialog {
         // The OK button has "Alt+O" shortcut, while Cancel has "Alt+C".
         // However there is no visual indication. The code below doesn't
         // really work.
-        
+
         // okButton.hoverEnabled = true;
         // okButton.ToolTip.text = dummyOk.nativeText;
         // okButton.ToolTip.visible = okEnabled && okButton.hovered;
@@ -97,8 +90,6 @@ Dialog {
         // cancelButton.ToolTip.text = dummyCancel.nativeText;
         // cancelButton.ToolTip.visible = cancelButton.hovered;
         // cancelButton.ToolTip.delay = 1000;
-
-        
     }
 }
 

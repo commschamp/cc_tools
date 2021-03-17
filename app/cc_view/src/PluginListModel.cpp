@@ -22,6 +22,16 @@ PluginListModel::PluginListModel()
 
 PluginListModel::~PluginListModel() = default;
 
+QString PluginListModel::getIidOf(int idx) const
+{
+    if (m_availablePlugins.size() <= idx) {
+        assert(!"Should not happen");
+        return QString();
+    }
+
+    return m_availablePlugins[idx]->getIid();
+}
+
 QString PluginListModel::getNameOf(int idx) const
 {
     if (m_availablePlugins.size() <= idx) {

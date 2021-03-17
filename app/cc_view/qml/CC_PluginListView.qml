@@ -7,12 +7,15 @@ import "qrc:/qml"
 
 ListView {
     id: root
+    currentIndex: -1
 
     // Input params
     property int pluginType: CC_PluginListModel.Type_Invalid
     property string searchStr: ""
 
-    signal sigPluginSelected(string name)
+    // Output params
+    property string selectedName: ""
+    property string pluginIid: ""
 
     model: CC_PluginListModel {
         pluginType: root.pluginType
@@ -40,18 +43,37 @@ ListView {
             hoverEnabled: true
 
             onClicked: {
-                console.log("Clicked: " + index);
+                var indexChanged = root.currentIndex != index;
+                if (!indexChanged) {
+                    root.currentIndex = -1;    
+                    root.selectedName = "";
+                }
+                
                 root.currentIndex = index;
-                root.sigPluginSelected(root.model.getNameOf(index));
+                root.selectedName = root.model.getNameOf(index);
             }
         }
 
-        ToolTip.visible: mouseArea.containsMouse
-        ToolTip.text: (0 <= root.currentIndex) ? root.model.getDescriptionOf(root.currentIndex) : "";
+        ToolTip.visible: mouseArea.containsMouse && (ToolTip.text !== "")
+        ToolTip.text: root.model.getDescriptionOf(index);
         ToolTip.delay: 1000
     }
 
     onSearchStrChanged: {
+        updateSelection();
+    }
+
+    Component.onCompleted: {
+        updateSelection();
+    }
+
+    function updateSelection() {
+        if (searchStr === "") {
+            currentIndex = -1;
+            updateIid();
+            return;
+        }
+
         var searchStrTmp = searchStr.toLowerCase();
         var startsIdx = -1;
         var substrIdx = -1;
@@ -70,10 +92,30 @@ ListView {
 
         if (0 <= startsIdx) {
             currentIndex = startsIdx;
+            updateIid();
             return;    
         }
 
         currentIndex = substrIdx;
+        updateIid();
+    }
+
+    function updateIid() {
+        var iidStr = "";
+        do {
+            if (currentIndex < 0) {
+                break;
+            }
+
+            var searchStrTmp = searchStr.toLowerCase();
+            if (model.getNameOf(currentIndex).toLowerCase() != searchStrTmp) {
+                break;
+            }
+
+            iidStr = model.getIidOf(currentIndex);
+        } while (false);
+
+        pluginIid = iidStr;
     }
 }
 

@@ -38,6 +38,7 @@ public:
     };
     Q_ENUM(Type);
 
+    Q_INVOKABLE QString getIidOf(int idx) const;
     Q_INVOKABLE QString getNameOf(int idx) const;
     Q_INVOKABLE QString getDescriptionOf(int idx) const;
 

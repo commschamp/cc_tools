@@ -16,6 +16,8 @@ class GuiState : public QObject
     Q_OBJECT    
 
     Q_PROPERTY(QString dialogQml READ getDialogQml WRITE setDialogQml NOTIFY sigDialogQmlChanged)
+    Q_PROPERTY(QString socketPluginName READ getSocketPluginName WRITE setSocketPluginName NOTIFY sigSocketPluginNameChanged)
+    Q_PROPERTY(QString socketPluginIid READ getSocketPluginIid WRITE setSocketPluginIid NOTIFY sigSocketPluginIidChanged)
 public:
     enum DialogType 
     {
@@ -33,9 +35,13 @@ public:
     Q_INVOKABLE void activateDialog(DialogType type);
 
     CC_MEMBER(QString, DialogQml)
+    CC_MEMBER(QString, SocketPluginName)
+    CC_MEMBER(QString, SocketPluginIid)
 
 signals:
     void sigDialogQmlChanged(const QString& value);    
+    void sigSocketPluginNameChanged(const QString& value);
+    void sigSocketPluginIidChanged(const QString& value);
 
 private:
     GuiState();    

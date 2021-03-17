@@ -23,7 +23,7 @@ ToolBar {
 
         CC_ToolButton {
             image.source: "qrc:/image/plugin_select.png"
-            tooltip.text: qsTr("Select plugins")
+            tooltip.text: qsTr("Select plugins") + " (Ctrl+P)"
 
             onClicked: {
                 CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginSelection);
@@ -31,5 +31,13 @@ ToolBar {
         }
         
         // TODO: extra buttons from plugin
+    }
+
+    Shortcut {
+        sequence: "Ctrl+P"
+        enabled: true
+        onActivated: {
+            CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginSelection);
+        }
     }
 }
