@@ -52,6 +52,10 @@ QString PluginListModel::getDescriptionOf(int idx) const
     return m_availablePlugins[idx]->getDescription();
 }
 
+int PluginListModel::getCount() const
+{
+    return m_availablePlugins.size();
+}
 
 int PluginListModel::rowCount(const QModelIndex &parent) const
 {
@@ -117,6 +121,7 @@ void PluginListModel::pluginTypeChanged(int value)
         m_availablePlugins.end());
 
     endResetModel();
+    emit sigCountChanged(m_availablePlugins.size());
 }
 
 } // namespace cc_view

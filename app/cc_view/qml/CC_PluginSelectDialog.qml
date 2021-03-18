@@ -35,7 +35,9 @@ Dialog {
         CC_PluginListView {
             Layout.fillWidth: true
             Layout.leftMargin: 20
-            height: 200   
+            //Layout.minimumHeight: 100
+            //Layout.maximumHeight: 200
+            //height: 200   
             focus: true         
 
             pluginType: CC_PluginListModel.Type_Socket

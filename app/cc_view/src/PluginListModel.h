@@ -20,6 +20,7 @@ class PluginListModel : public QAbstractListModel
     Q_OBJECT
 
     Q_PROPERTY(int pluginType READ getPluginType WRITE setPluginType NOTIFY sigPluginTypeChanged)
+    Q_PROPERTY(int count READ getCount NOTIFY sigCountChanged)
 
     using Base = QAbstractListModel;
 public:
@@ -44,8 +45,11 @@ public:
 
     CC_MEMBER(int, PluginType, =Type_Invalid)
 
+    int getCount() const;
+
 signals:
     void sigPluginTypeChanged(int value);
+    void sigCountChanged(int value);
 
 protected:
     virtual int rowCount(const QModelIndex &parent) const override final;    

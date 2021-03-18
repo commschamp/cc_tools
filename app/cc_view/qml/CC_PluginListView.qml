@@ -8,6 +8,8 @@ import "qrc:/qml"
 ListView {
     id: root
     currentIndex: -1
+    height: model.count > maxElemsToShow ? (maxElemsToShow * elemHeight) : contentHeight
+    ScrollBar.vertical: ScrollBar {}
 
     // Input params
     property int pluginType: CC_PluginListModel.Type_Invalid
@@ -17,6 +19,10 @@ ListView {
     property string selectedName: ""
     property string pluginIid: ""
 
+    // Internal configuration
+    readonly property int elemHeight: 30
+    readonly property int maxElemsToShow: 6
+
     model: CC_PluginListModel {
         pluginType: root.pluginType
     }
@@ -24,7 +30,7 @@ ListView {
     delegate: Rectangle {
         id: elem
         color: selected ? "lightsteelblue" : "gainsboro"
-        height: 30
+        height: root.elemHeight
         radius: 5
         anchors.left: parent.left
         anchors.right: parent.right
@@ -48,7 +54,7 @@ ListView {
                     root.currentIndex = -1;    
                     root.selectedName = "";
                 }
-                
+
                 root.currentIndex = index;
                 root.selectedName = root.model.getNameOf(index);
             }
