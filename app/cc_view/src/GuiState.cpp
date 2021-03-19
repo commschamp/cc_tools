@@ -34,7 +34,9 @@ void GuiState::activateDialog(DialogType type)
 {
     static const QString Map[] = {
         /* DialogType_None */ EmptyStr,
-        /* DialogType_PluginSelection */ "qrc:/qml/CC_PluginSelectDialog.qml",
+        /* DialogType_PluginsSelection */ "qrc:/qml/CC_PluginsSelectDialog.qml",
+        /* DialogType_PluginsReloadConfirmation */ "qrc:/qml/CC_PluginsReloadConfirmDialog.qml",
+        /* DialogType_PluginsReloadError */ "qrc:/qml/CC_PluginsReloadErrorDialog.qml",
     };
     static const std::size_t MapSize = std::extent<decltype(Map)>::value;
     static_assert(MapSize == DialogType_NumOfValues, "Invalid map");

@@ -50,10 +50,36 @@ AppMgr& AppMgr::instance()
     return obj;
 }
 
+bool AppMgr::requiresPluginsReloadConfirmation(
+    const QString& socketIid,
+    const QStringList& filtersIids,
+    const QString& pluginIid)
+{
+    static_cast<void>(socketIid);
+    static_cast<void>(filtersIids);
+    static_cast<void>(pluginIid);
+    // TODO
+    return true;
+}
+
+
+bool AppMgr::loadPlugins(
+    const QString& socketIid,
+    const QStringList& filtersIids,
+    const QString& pluginIid)
+{
+    static_cast<void>(socketIid);
+    static_cast<void>(filtersIids);
+    static_cast<void>(pluginIid);
+    // TODO:
+    return false;
+}
+
 AppMgr::AppMgr()
 {
     m_pluginMgr.setPluginsDir(getPluginsDir());
 }
+
 
 } // namespace cc_view
 

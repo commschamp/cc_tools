@@ -3,6 +3,7 @@
 #include <QQmlApplicationEngine>
 
 #include "GuiState.h"
+#include "AppMgr.h"
 #include "PluginListModel.h"
 
 namespace 
@@ -18,9 +19,20 @@ QObject *getGuiState(QQmlEngine *engine, QJSEngine *scriptEngine)
     return st;
 }
 
+QObject *getAppMgr(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+
+    auto* mgr = &cc_tools::cc_view::AppMgr::instance();
+    QQmlEngine::setObjectOwnership(mgr, QQmlEngine::CppOwnership);
+    return mgr;
+}
+
 void qmlRegisterTypes()
 {
     qmlRegisterSingletonType<cc_tools::cc_view::GuiState>("CC", 1, 0, "CC_GuiState", &getGuiState);
+    qmlRegisterSingletonType<cc_tools::cc_view::AppMgr>("CC", 1, 0, "CC_AppMgr", &getAppMgr);
 
     qmlRegisterType<cc_tools::cc_view::PluginListModel>("CC", 1, 0, "CC_PluginListModel");
 }

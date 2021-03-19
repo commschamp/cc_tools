@@ -21,6 +21,16 @@ public:
         return m_pluginMgr;
     }
 
+    Q_INVOKABLE bool requiresPluginsReloadConfirmation(
+        const QString& socketIid,
+        const QStringList& filtersIids,
+        const QString& pluginIid);
+
+    Q_INVOKABLE bool loadPlugins(
+        const QString& socketIid,
+        const QStringList& filtersIids,
+        const QString& pluginIid);
+
 private:
     AppMgr();
 

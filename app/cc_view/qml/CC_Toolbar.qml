@@ -26,7 +26,7 @@ ToolBar {
             tooltip.text: qsTr("Select plugins") + " (Ctrl+P)"
 
             onClicked: {
-                CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginSelection);
+                CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginsSelection);
             }            
         }
         
@@ -37,7 +37,7 @@ ToolBar {
         sequence: "Ctrl+P"
         enabled: true
         onActivated: {
-            CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginSelection);
+            CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginsSelection);
         }
     }
 }

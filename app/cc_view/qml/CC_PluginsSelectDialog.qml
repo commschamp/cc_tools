@@ -32,7 +32,7 @@ Dialog {
             }
         }
 
-        CC_PluginListView {
+        CC_PluginsListView {
             Layout.fillWidth: true
             Layout.leftMargin: 20
             //Layout.minimumHeight: 100
@@ -66,7 +66,28 @@ Dialog {
 
     onAccepted: {
         console.log("accepted");
-        CC_GuiState.activateDialog(CC_GuiState.DialogType_None);        
+        var requiresConfirmation = 
+            CC_AppMgr.requiresPluginsReloadConfirmation(
+                CC_GuiState.socketPluginIid,
+                CC_GuiState.filterPluginsIids,
+                CC_GuiState.protocolPluginIid);
+        if (requiresConfirmation) {
+            CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginsReloadConfirmation);
+            return;
+        }
+
+        var applied = 
+            CC_AppMgr.loadPlugins(
+                CC_GuiState.socketPluginIid,
+                CC_GuiState.filterPluginsIids,
+                CC_GuiState.protocolPluginIid);
+
+        if (applied) {
+            CC_GuiState.activateDialog(CC_GuiState.DialogType_None);
+            return;
+        }
+
+        CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginsReloadError);
     }
 
     onRejected: {
