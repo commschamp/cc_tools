@@ -1,19 +1,15 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
+import QtQuick.Dialogs 1.3 as Dialogs
 import CC 1.0
 
 import "qrc:/qml"
 
-Dialog {
+Dialogs.Dialog {
     id: root
-    visible: true
-    closePolicy: Dialog.NoAutoClose
-    x: (parent.width - width) / 2;
-    y: (parent.height - height) / 2;    
-    modal: true
     title: "Plugin Configuration"
-    standardButtons: Dialog.Ok | Dialog.Cancel
+    standardButtons: Dialogs.StandardButton.Cancel | (okEnabled ? Dialogs.StandardButton.Ok : 0)
 
     property bool socketValid: false
     property bool okEnabled: socketValid // TODO: should be true when applicable
@@ -35,9 +31,6 @@ Dialog {
         CC_PluginsListView {
             Layout.fillWidth: true
             Layout.leftMargin: 20
-            //Layout.minimumHeight: 100
-            //Layout.maximumHeight: 200
-            //height: 200   
             focus: true         
 
             pluginType: CC_PluginListModel.Type_Socket
@@ -96,23 +89,7 @@ Dialog {
     } 
 
     Component.onCompleted: {
-        var okButton = footer.standardButton(Dialog.Ok);
-        okButton.enabled = Qt.binding(function() { return okEnabled; });
-
-        // The OK button has "Alt+O" shortcut, while Cancel has "Alt+C".
-        // However there is no visual indication. The code below doesn't
-        // really work.
-
-        // okButton.hoverEnabled = true;
-        // okButton.ToolTip.text = dummyOk.nativeText;
-        // okButton.ToolTip.visible = okEnabled && okButton.hovered;
-        // okButton.ToolTip.delay = 1000;
-
-        // cancelButton = footer.standardButton(Dialog.Cancel);
-        // cancelButton.hoverEnabled = true;
-        // cancelButton.ToolTip.text = dummyCancel.nativeText;
-        // cancelButton.ToolTip.visible = cancelButton.hovered;
-        // cancelButton.ToolTip.delay = 1000;
+        visible = true;
     }
 }
 
