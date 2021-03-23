@@ -36,6 +36,7 @@ namespace cc_plugin
 /// @headerfile cc_tools/cc_plugin/Plugin.h
 class CC_PLUGIN_API Plugin : public QObject
 {
+    Q_OBJECT
 public:
     /// @brief Constructor
     Plugin();

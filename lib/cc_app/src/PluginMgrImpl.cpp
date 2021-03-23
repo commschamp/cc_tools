@@ -135,7 +135,7 @@ const PluginMgrImpl::ListOfPluginInfos& PluginMgrImpl::getAvailablePlugins()
             pluginDir.entryList(QDir::Files | QDir::NoDotAndDotDot, QDir::Name);
 
         for (auto& f : files) {
-            auto infoPtr = readPluginInfo(f);
+            auto infoPtr = readPluginInfo(pluginDir.filePath(f));
             if (!infoPtr) {
                 continue;
             }

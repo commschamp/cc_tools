@@ -12,13 +12,14 @@ Dialogs.Dialog {
     standardButtons: Dialogs.StandardButton.Cancel | (okEnabled ? Dialogs.StandardButton.Ok : 0)
 
     property bool socketValid: false
-    property bool okEnabled: socketValid // TODO: should be true when applicable
+    property bool protocolValid: false
+    property bool okEnabled: socketValid && protocolValid // TODO: should be true when applicable
 
     ColumnLayout {
         width: 200
         TextField {
             id: socketText
-            placeholderText: qsTr("Socket") + " (" + socketShortcut.sequence + ")";
+            placeholderText: qsTr("Socket") + " (" + socketShortcut.sequence + ")"
             text: CC_GuiState.socketPluginName
 
             Shortcut {
@@ -48,13 +49,32 @@ Dialogs.Dialog {
 
         TextField {
             id: protocolText
-            placeholderText: qsTr("Protocol");
+            placeholderText: qsTr("Protocol")
+            text: CC_GuiState.protocolPluginName
 
             Shortcut {
                 sequence: "Alt+P"
                 onActivated: protocolText.forceActiveFocus();
             }
         }                
+
+        CC_PluginsListView {
+            Layout.fillWidth: true
+            Layout.leftMargin: 20
+            focus: true         
+
+            pluginType: CC_PluginListModel.Type_Protocol
+            searchStr: protocolText.text
+
+            onSelectedNameChanged: {
+                CC_GuiState.protocolPluginName = selectedName;
+            }
+
+            onPluginIidChanged: {
+                CC_GuiState.protocolPluginIid = pluginIid;
+                root.protocolValid = (pluginIid !== "");
+            }
+        }
     }
 
     onAccepted: {
