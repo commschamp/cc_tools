@@ -14,9 +14,12 @@ class AppMgr : public QObject
 {
     Q_OBJECT
 public:
+    using PluginMgr = cc_tools::cc_app::PluginMgr;
+    using ListOfPluginInfos = PluginMgr::ListOfPluginInfos;
+
     static AppMgr& instance();
 
-    cc_tools::cc_app::PluginMgr& pluginMgr()
+    PluginMgr& pluginMgr()
     {
         return m_pluginMgr;
     }
@@ -34,7 +37,9 @@ public:
 private:
     AppMgr();
 
-    cc_tools::cc_app::PluginMgr m_pluginMgr;
+    ListOfPluginInfos getPluginInfos(const QStringList& pluginIids);
+
+    PluginMgr m_pluginMgr;
 };
 
 } // namespace cc_view
