@@ -56,7 +56,7 @@ private:
 };
 
 /// @brief Pointer to @ref Protocol object.
-using ProtocolPtr = std::unique_ptr<Protocol>;
+using ProtocolPtr = std::shared_ptr<Protocol>;
 
 } // namespace cc_plugin
 

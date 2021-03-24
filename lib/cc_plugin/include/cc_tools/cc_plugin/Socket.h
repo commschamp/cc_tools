@@ -185,7 +185,7 @@ private:
 };
 
 /// @brief Pointer to @ref Socket object.
-using SocketPtr = std::unique_ptr<Socket>;
+using SocketPtr = std::shared_ptr<Socket>;
 
 } // namespace cc_plugin
 

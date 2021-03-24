@@ -15,15 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#pragma once
+#include "TcpClientSocketPlugin.h"
 
 #include <memory>
+#include <cassert>
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
-
-#include "cc_tools/cc_plugin/Api.h"
+#include "TcpClientSocket.h"
 
 namespace cc_tools
 {
@@ -31,33 +28,32 @@ namespace cc_tools
 namespace cc_plugin
 {
 
-class CC_PLUGIN_API PluginObject : public QObject
+namespace socket
 {
-    using Base = QObject;
-    
-public:
-    enum class Type
-    {
-        Invalid,
-        Socket,
-        Filter,
-        Protocol,
-        NumOfValues
-    };
 
-    explicit PluginObject(QObject* p = nullptr);
+TcpClientSocketPlugin::TcpClientSocketPlugin()
+{
+}
 
-    virtual ~PluginObject() noexcept;
+TcpClientSocketPlugin::~TcpClientSocketPlugin() noexcept = default;
 
-    Type getType() const;
+cc_tools::cc_plugin::PluginObjectPtr TcpClientSocketPlugin::createObjectImpl()
+{
+    createSocketIfNeeded();
+    return m_socket;
+}
 
-protected:
-    virtual Type getTypeImpl() const = 0;
-};
+void TcpClientSocketPlugin::createSocketIfNeeded()
+{
+    if (!m_socket) {
+        m_socket = makeTcpClientSocket();
+    }
+}
 
-using PluginObjectPtr = std::shared_ptr<PluginObject>;
+} // namespace socket
 
-} // namespace cc_plugin
+}  // namespace cc_plugin
 
 }  // namespace cc_tools
+
 

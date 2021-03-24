@@ -93,6 +93,9 @@ bool AppMgr::loadPlugins(
         }
 
         std::cout << "Loaded: " << i->getIid().toStdString() << std::endl;
+        auto obj = plugin->createObject();
+        static_cast<void>(obj);
+        // TODO
     }
 
     if (result) {

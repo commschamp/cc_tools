@@ -20,10 +20,8 @@
 
 #include <memory>
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
-
-#include "cc_tools/cc_plugin/Api.h"
+#include "cc_tools/cc_plugin/Plugin.h"
+#include "TcpClientSocket.h"
 
 namespace cc_tools
 {
@@ -31,33 +29,34 @@ namespace cc_tools
 namespace cc_plugin
 {
 
-class CC_PLUGIN_API PluginObject : public QObject
+namespace socket
 {
-    using Base = QObject;
-    
+
+class TcpClientSocketPlugin final: public cc_tools::cc_plugin::Plugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "cc.TcpClientSocketPlugin" FILE "tcp_client_socket.json")
+    Q_INTERFACES(cc_tools::cc_plugin::Plugin)
+
 public:
-    enum class Type
-    {
-        Invalid,
-        Socket,
-        Filter,
-        Protocol,
-        NumOfValues
-    };
-
-    explicit PluginObject(QObject* p = nullptr);
-
-    virtual ~PluginObject() noexcept;
-
-    Type getType() const;
+    TcpClientSocketPlugin();
+    ~TcpClientSocketPlugin() noexcept;
 
 protected:
-    virtual Type getTypeImpl() const = 0;
+    virtual cc_tools::cc_plugin::PluginObjectPtr createObjectImpl() override;
+
+private:    
+    void createSocketIfNeeded();
+
+    TcpClientSocketPtr m_socket;    
 };
 
-using PluginObjectPtr = std::shared_ptr<PluginObject>;
+} // namespace socket
 
-} // namespace cc_plugin
+}  // namespace cc_plugin
 
 }  // namespace cc_tools
+
+
+
 
