@@ -24,7 +24,7 @@ PluginListModel::~PluginListModel() = default;
 
 QString PluginListModel::getIidOf(int idx) const
 {
-    if (m_availablePlugins.size() <= idx) {
+    if (m_availablePlugins.size() <= static_cast<unsigned>(idx)) {
         assert(!"Should not happen");
         return QString();
     }
@@ -34,7 +34,7 @@ QString PluginListModel::getIidOf(int idx) const
 
 QString PluginListModel::getNameOf(int idx) const
 {
-    if (m_availablePlugins.size() <= idx) {
+    if (m_availablePlugins.size() <= static_cast<unsigned>(idx)) {
         assert(!"Should not happen");
         return QString();
     }
@@ -44,7 +44,7 @@ QString PluginListModel::getNameOf(int idx) const
 
 QString PluginListModel::getDescriptionOf(int idx) const
 {
-    if (m_availablePlugins.size() <= idx) {
+    if (m_availablePlugins.size() <= static_cast<unsigned>(idx)) {
         assert(!"Should not happen");
         return QString();
     }
@@ -54,13 +54,13 @@ QString PluginListModel::getDescriptionOf(int idx) const
 
 int PluginListModel::getCount() const
 {
-    return m_availablePlugins.size();
+    return static_cast<int>(m_availablePlugins.size());
 }
 
 int PluginListModel::rowCount(const QModelIndex &parent) const
 {
     static_cast<void>(parent);
-    return m_availablePlugins.size();
+    return static_cast<int>(m_availablePlugins.size());
 }
 
 QVariant PluginListModel::data(const QModelIndex &index, int role) const
@@ -68,7 +68,7 @@ QVariant PluginListModel::data(const QModelIndex &index, int role) const
     QVariant result;
     do {
         auto idx = index.row();
-        if (m_availablePlugins.size() <= idx) {
+        if (m_availablePlugins.size() <= static_cast<unsigned>(idx)) {
             break;
         }
 
@@ -121,7 +121,7 @@ void PluginListModel::pluginTypeChanged(int value)
         m_availablePlugins.end());
 
     endResetModel();
-    emit sigCountChanged(m_availablePlugins.size());
+    emit sigCountChanged(static_cast<int>(m_availablePlugins.size()));
 }
 
 } // namespace cc_view
