@@ -8,7 +8,7 @@ set (src
 set (hdr
 )
 
-add_library (${name} ${src} ${hdr})
+add_library (${name} SHARED ${src} ${hdr})
 add_library (cc::app ALIAS ${name})
 
 target_compile_definitions(${name} PRIVATE -DCC_APP_LIB_EXPORT)    

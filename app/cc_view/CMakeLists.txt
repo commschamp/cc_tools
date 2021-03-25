@@ -20,3 +20,10 @@ install(
     TARGETS ${name}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+if (UNIX)
+    install(
+        PROGRAMS script/cc_view.sh
+        DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
+endif ()  

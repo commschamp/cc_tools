@@ -11,7 +11,7 @@ set (hdr
     #include/cc_tools/cc_plugin/Socket.h
 )
 
-add_library (${name} ${src} ${hdr})
+add_library (${name} SHARED ${src} ${hdr})
 add_library (cc::plugin ALIAS ${name})
 
 target_compile_definitions(${name} PRIVATE -DCC_PLUGIN_LIB_EXPORT)    
