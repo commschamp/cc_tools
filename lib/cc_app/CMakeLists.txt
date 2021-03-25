@@ -11,6 +11,7 @@ set (hdr
 add_library (${name} ${src} ${hdr})
 add_library (cc::app ALIAS ${name})
 
+target_compile_definitions(${name} PRIVATE -DCC_APP_LIB_EXPORT)    
 target_link_libraries(${name} PUBLIC cc::plugin Qt5::Core)
 target_include_directories(${name} 
     INTERFACE

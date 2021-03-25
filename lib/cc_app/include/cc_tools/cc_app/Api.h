@@ -17,6 +17,15 @@
 
 #pragma once
 
-#include "cc_tools/cc_plugin/Api.h"
+#ifdef WIN32
 
-#define CC_APP_API CC_PLUGIN_API
+#ifdef CC_APP_LIB_EXPORT
+#define CC_APP_API __declspec(dllexport)
+#else // #ifdef CC_APP_LIB_EXPORT
+#define CC_APP_API __declspec(dllimport)
+#endif // #ifdef CC_APP_LIB_EXPORT
+
+#else // #ifdef WIN32
+#define CC_APP_API
+#endif // #ifdef WIN32
+
