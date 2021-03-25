@@ -1,5 +1,6 @@
 set (name "cc_plugin")
 set (src
+    src/DataInfo.cpp
     src/Plugin.cpp
     src/PluginObject.cpp
     src/Protocol.cpp

@@ -32,8 +32,8 @@ EchoSocket::EchoSocket()
 {
     m_timer.setSingleShot(true);
     connect(
-        &m_timer, SIGNAL(timeout()),
-        this, SLOT(sendDataPostponed()),
+        &m_timer, &QTimer::timeout,
+        this, &EchoSocket::sendDataPostponed,
         Qt::QueuedConnection);
 }
 

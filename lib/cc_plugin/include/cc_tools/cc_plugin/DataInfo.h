@@ -26,7 +26,7 @@
 #include <QtCore/QVariant>
 #include <QtCore/QVariantMap>
 
-#include "Api.h"
+#include "cc_tools/cc_plugin/Api.h"
 
 namespace cc_tools
 {
@@ -64,7 +64,7 @@ CC_PLUGIN_API DataInfoPtr makeDataInfo();
 
 } // namespace cc_plugin
 
-}  // namespace cc_tools
+} // namespace cc_tools
 
 Q_DECLARE_METATYPE(cc_tools::cc_plugin::DataInfoPtr);
 
