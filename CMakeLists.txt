@@ -7,6 +7,9 @@ option (CC_COMPILE_WARN_AS_ERR "Treat compilation warnings as errors" ON)
 option (CC_BUILD_ECHO_SOCKET "Build echo socket plugin" ON)
 option (CC_BUILD_TCP_CLIENT_SOCKET "Build TCP/IP client socket plugin" ON)
 option (CC_BUILD_DEMO_PROTOCOL "Build demo protocol plugin" ON)
+
+# Extra input variables
+# CC_QT_DIR - Directory of Qt5 installation
 ############################################################
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -17,6 +20,10 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+if (NOT "${CC_QT_DIR}" STREQUAL "")
+    list (APPEND CMAKE_PREFIX_PATH ${CC_QT_DIR})
+endif ()
 
 find_package(Qt5 COMPONENTS Core REQUIRED)
 
