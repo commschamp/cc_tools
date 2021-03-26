@@ -39,7 +39,7 @@ add_subdirectory(plugin)
 if (WIN32 AND CC_QT_DIR)
     add_custom_target ("deploy_qt"
         COMMAND ${CMAKE_COMMAND} -DCC_QT_DIR=${CC_QT_DIR}
-            -DCC_DEPLOY_DIR=${CMAKE_INSTALL_BINDIR} -DCC_PARSE_DIR=${CMAKE_INSTALL_BINDIR}
+            -DCC_DEPLOY_DIR=${CMAKE_INSTALL_FULL_BINDIR} -DCC_PARSE_DIR=${CMAKE_INSTALL_FULL_BINDIR}
             -DCC_QML_DIRS=${PROJECT_SOURCE_DIR}/app/cc_view/qml/
             -P ${PROJECT_SOURCE_DIR}/cmake/CC_DeployQt5Script.cmake
     )
