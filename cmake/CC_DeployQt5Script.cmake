@@ -33,6 +33,7 @@ foreach (p ${CC_QML_DIRS})
     set (qml_args "${qml_args} --qmldir ${p}")
 endforeach ()
 
+message (STATUS "Executing ${deploy_exe} --dir ${CC_DEPLOY_DIR} ${qml_args} ${CC_PARSE_DIR}" )
 execute_process (
     COMMAND ${deploy_exe} --dir ${CC_DEPLOY_DIR} ${qml_args} ${CC_PARSE_DIR}
 )

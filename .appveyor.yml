@@ -5,7 +5,7 @@ image:
 init:
     - git config --global core.autocrlf input
 
-clone_folder: c:\projects\comms_champion
+clone_folder: c:\projects\cc_tools
 shallow_clone: true             
 
 platform:
