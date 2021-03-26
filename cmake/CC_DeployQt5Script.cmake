@@ -4,7 +4,7 @@
 # CC_QT_DIR - Directory of Qt5 installation
 # CC_DEPLOY_DIR - Directory where all Qt5 libraries need to be deployed
 # CC_PARSE_DIR - Directory that need to parsed for deployment dependencies
-# CC_QML_DIRS - Directories where all qml files are located
+# CC_QML_DIR - Directory where all qml files are located
 
 if (NOT WIN32)
     message (FATAL_ERROR "Qt5 deployment works only on Windows.")
@@ -28,14 +28,17 @@ if (NOT deploy_exe)
     message (FATAL_ERROR "windeployqt.exe hasn't been found.")
 endif ()
 
-set (qml_args)
-foreach (p ${CC_QML_DIRS})
-    list (APPEND qml_args --qmldir ${p})
-endforeach ()
-string(REPLACE ";" " " qml_args "${qml_args}")
+set (qml_arg)
+if (NOT "${CC_QML_DIR}" STREQUAL "")
+    set (qml_arg --qmldir)
+endif ()
 
-message (STATUS "Executing ${deploy_exe} --dir ${CC_DEPLOY_DIR} ${qml_args} ${CC_PARSE_DIR}" )
-execute_process (
-    COMMAND ${deploy_exe} --dir ${CC_DEPLOY_DIR} --qmldir ${CC_QML_DIRS} ${CC_PARSE_DIR}
-)
+file (GLOB binaries "${CC_PARSE_DIR}/*.exe")
+
+foreach (f ${binaries} ${plugins})
+    execute_process (
+        COMMAND ${deploy_exe} --dir ${CC_DEPLOY_DIR} ${qml_arg} ${CC_QML_DIR} ${f}
+    )
+endforeach ()
+
 
