@@ -45,6 +45,12 @@ macro (_cc_set_unix_flags)
 endmacro()
 
 macro (_cc_set_windows_flags)
+    if (MSVC)
+        set (extra_flags_list "/wd4003")
+        string(REPLACE ";" " " extra_flags "${extra_flags_list}")
+        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${extra_flags}")
+    endif ()
+    
 endmacro()
 
 ###############################################################

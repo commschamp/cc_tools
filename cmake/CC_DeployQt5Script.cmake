@@ -36,6 +36,6 @@ string(REPLACE ";" " " qml_args "${qml_args}")
 
 message (STATUS "Executing ${deploy_exe} --dir ${CC_DEPLOY_DIR} ${qml_args} ${CC_PARSE_DIR}" )
 execute_process (
-    COMMAND ${deploy_exe} --dir ${CC_DEPLOY_DIR} ${qml_args} ${CC_PARSE_DIR}
+    COMMAND ${deploy_exe} --dir ${CC_DEPLOY_DIR} --qmldir ${CC_QML_DIRS} ${CC_PARSE_DIR}
 )
 
