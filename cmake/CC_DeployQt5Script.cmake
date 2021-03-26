@@ -30,8 +30,9 @@ endif ()
 
 set (qml_args)
 foreach (p ${CC_QML_DIRS})
-    set (qml_args "${qml_args} --qmldir ${p}")
+    list (APPEND qml_args --qmldir ${p})
 endforeach ()
+string(REPLACE ";" " " qml_args "${qml_args}")
 
 message (STATUS "Executing ${deploy_exe} --dir ${CC_DEPLOY_DIR} ${qml_args} ${CC_PARSE_DIR}" )
 execute_process (
