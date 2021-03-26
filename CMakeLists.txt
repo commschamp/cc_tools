@@ -29,6 +29,7 @@ find_package(Qt5 COMPONENTS Core REQUIRED)
 
 include(GNUInstallDirs)
 include(${PROJECT_SOURCE_DIR}/cmake/CommonFuncs.cmake)
+set (CC_PLUGIN_INSTALL_DIR "${CMAKE_INSTALL_FULL_LIBDIR}/cc_tools/plugin")
 
 cc_set_compile_flags()
 
@@ -39,7 +40,9 @@ add_subdirectory(plugin)
 if (WIN32 AND CC_QT_DIR)
     add_custom_target ("deploy_qt"
         COMMAND ${CMAKE_COMMAND} -DCC_QT_DIR=${CC_QT_DIR}
-            -DCC_DEPLOY_DIR=${CMAKE_INSTALL_FULL_BINDIR} -DCC_PARSE_DIR=${CMAKE_INSTALL_FULL_BINDIR}
+            -DCC_DEPLOY_DIR=${CMAKE_INSTALL_FULL_BINDIR} 
+            -DCC_BIN_DIR=${CMAKE_INSTALL_FULL_BINDIR}
+            -DCC_PLUGIN_DIR=${CC_PLUGIN_INSTALL_DIR}
             -DCC_QML_DIR=${PROJECT_SOURCE_DIR}/app/cc_view/qml/
             -P ${PROJECT_SOURCE_DIR}/cmake/CC_DeployQt5Script.cmake
     )
