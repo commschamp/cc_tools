@@ -18,16 +18,15 @@ MessageDialog {
                 CC_GuiState.filterPluginsIids,
                 CC_GuiState.protocolPluginIid);
 
-        if (applied) {
-            CC_GuiState.activateDialog(CC_GuiState.DialogType_None);
-            return;
+        if (!applied) {
+            CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginsReloadError);
         }
 
-        CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginsReloadError);
+        CC_GuiState.closeCurrentDialog();
     }
 
     onNo: {
-        CC_GuiState.activateDialog(CC_GuiState.DialogType_None);
+        CC_GuiState.closeCurrentDialog();
     }
 
     Component.onCompleted: visible = true

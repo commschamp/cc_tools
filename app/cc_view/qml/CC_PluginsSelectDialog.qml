@@ -84,8 +84,10 @@ Dialogs.Dialog {
                 CC_GuiState.socketPluginIid,
                 CC_GuiState.filterPluginsIids,
                 CC_GuiState.protocolPluginIid);
+
         if (requiresConfirmation) {
             CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginsReloadConfirmation);
+            CC_GuiState.closeCurrentDialog();
             return;
         }
 
@@ -95,17 +97,16 @@ Dialogs.Dialog {
                 CC_GuiState.filterPluginsIids,
                 CC_GuiState.protocolPluginIid);
 
-        if (applied) {
-            CC_GuiState.activateDialog(CC_GuiState.DialogType_None);
-            return;
+        if (!applied) {
+            CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginsReloadError);
         }
 
-        CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginsReloadError);
+        CC_GuiState.closeCurrentDialog();
     }
 
     onRejected: {
         console.log("rejected");
-        CC_GuiState.activateDialog(CC_GuiState.DialogType_None);
+        CC_GuiState.closeCurrentDialog();
     } 
 
     Component.onCompleted: {

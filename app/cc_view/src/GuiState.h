@@ -39,6 +39,8 @@ public:
     static GuiState* instancePtr();
 
     Q_INVOKABLE void activateDialog(DialogType type);
+    Q_INVOKABLE void activateDialog(const QString& rsrc);
+    Q_INVOKABLE void closeCurrentDialog();
 
     CC_MEMBER(QString, DialogQml)
     CC_MEMBER(QString, SocketPluginName)
@@ -56,7 +58,11 @@ signals:
     void sigFilterPluginsIidsChanged(const QStringList& value);
 
 private:
-    GuiState();    
+    GuiState(); 
+
+    void displayNextDialog();   
+
+    QStringList m_dialogsQueue;
 };
 
 } // namespace cc_view

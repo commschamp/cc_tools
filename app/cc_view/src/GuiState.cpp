@@ -44,15 +44,39 @@ void GuiState::activateDialog(DialogType type)
     auto idx = static_cast<unsigned>(type);
     if (MapSize <= idx) {
         assert(!"Should not happen");
-        setDialogQml(EmptyStr);
         return;
     }
 
-    setDialogQml(Map[idx]);
+    activateDialog(Map[idx]);
+}
+
+void GuiState::activateDialog(const QString& rsrc)
+{
+    m_dialogsQueue.append(rsrc);
+    if (m_dialogsQueue.size() == 1) {
+        displayNextDialog();
+    }
+}
+
+void GuiState::closeCurrentDialog()
+{
+    assert(!m_dialogsQueue.isEmpty());
+    m_dialogsQueue.pop_front();
+    if (m_dialogsQueue.isEmpty()) {
+        setDialogQml(QString());
+        return;
+    }
+
+    setDialogQml(m_dialogsQueue.front());
 }
 
 GuiState::GuiState()
 {
+}
+
+void GuiState::displayNextDialog()
+{
+    setDialogQml(m_dialogsQueue.front());
 }
 
 } // namespace cc_view
