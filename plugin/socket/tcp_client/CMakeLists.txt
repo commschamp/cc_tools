@@ -10,7 +10,11 @@ set (src
     TcpClientSocketPlugin.cpp
 )
 
-add_library (${name} MODULE ${src})
+set (rsrc
+    resources.qrc
+)
+
+add_library (${name} MODULE ${src} ${rsrc})
 
 target_link_libraries(${name} PRIVATE cc::plugin Qt5::Network Qt5::Core)
 

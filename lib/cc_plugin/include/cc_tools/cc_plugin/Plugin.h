@@ -50,10 +50,13 @@ public:
 
     PluginObjectPtr createObject();
 
+    const QString& getToolbarQmlElem() const;
+
 protected:
     virtual void getCurrentConfigImpl(QVariantMap& config);
     virtual void reconfigureImpl(const QVariantMap& config);
     virtual PluginObjectPtr createObjectImpl() = 0;
+    virtual const QString& getToolbarQmlElemImpl() const;
 };
 
 } // namespace cc_plugin

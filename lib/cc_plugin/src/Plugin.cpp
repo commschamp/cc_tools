@@ -52,6 +52,11 @@ PluginObjectPtr Plugin::createObject()
     return obj;
 }
 
+const QString& Plugin::getToolbarQmlElem() const
+{
+    return getToolbarQmlElemImpl();
+}
+
 void Plugin::getCurrentConfigImpl(QVariantMap& config)
 {
     static_cast<void>(config);
@@ -60,6 +65,12 @@ void Plugin::getCurrentConfigImpl(QVariantMap& config)
 void Plugin::reconfigureImpl(const QVariantMap& config)
 {
     static_cast<void>(config);
+}
+
+const QString& Plugin::getToolbarQmlElemImpl() const
+{
+    static const QString Str;
+    return Str;
 }
 
 } // namespace cc_plugin

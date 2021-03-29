@@ -44,6 +44,7 @@ public:
 
 protected:
     virtual cc_tools::cc_plugin::PluginObjectPtr createObjectImpl() override;
+    virtual const QString& getToolbarQmlElemImpl() const override;
 
 private:    
     void createSocketIfNeeded();

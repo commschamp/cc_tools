@@ -21,6 +21,7 @@ class GuiState : public QObject
     Q_PROPERTY(QString protocolPluginName READ getProtocolPluginName WRITE setProtocolPluginName NOTIFY sigProtocolPluginNameChanged)
     Q_PROPERTY(QString protocolPluginIid READ getProtocolPluginIid WRITE setProtocolPluginIid NOTIFY sigProtocolPluginIidChanged)
     Q_PROPERTY(QStringList filterPluginsIids READ getFilterPluginsIids WRITE setFilterPluginsIids NOTIFY sigFilterPluginsIidsChanged)
+    Q_PROPERTY(QStringList extraToolbarElements READ getExtraToolbarElements WRITE setExtraToolbarElements NOTIFY sigExtraToolbarElementsChanged)
     
 public:
     enum DialogType 
@@ -48,6 +49,7 @@ public:
     CC_MEMBER(QString, ProtocolPluginName)
     CC_MEMBER(QString, ProtocolPluginIid)
     CC_MEMBER(QStringList, FilterPluginsIids)
+    CC_MEMBER(QStringList, ExtraToolbarElements)
 
 signals:
     void sigDialogQmlChanged(const QString& value);    
@@ -56,6 +58,7 @@ signals:
     void sigProtocolPluginNameChanged(const QString& value);
     void sigProtocolPluginIidChanged(const QString& value);
     void sigFilterPluginsIidsChanged(const QStringList& value);
+    void sigExtraToolbarElementsChanged(const QStringList& value);
 
 private:
     GuiState(); 

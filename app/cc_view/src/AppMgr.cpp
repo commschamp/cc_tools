@@ -8,6 +8,7 @@
 #include <QtQml/QQmlApplicationEngine>
 
 #include "cc_tools/cc_plugin/PluginIntegration.h"
+#include "GuiState.h"
 
 namespace cc_tools
 {
@@ -81,11 +82,13 @@ bool AppMgr::loadPlugins(
     pluginIidsList.append(filtersIids);
     pluginIidsList.append(pluginIid);
 
-    auto infos = getPluginInfos(pluginIidsList);
+    GuiState::instance().setExtraToolbarElements(QStringList());
     m_pluginMgr.unloadApplied();
 
+    auto infos = getPluginInfos(pluginIidsList);
 
     bool result = true;
+    QStringList toolbarElems;
     for (auto& i : infos) {
         auto* plugin = m_pluginMgr.loadPlugin(*i);
         if (plugin == nullptr) {
@@ -98,11 +101,18 @@ bool AppMgr::loadPlugins(
         std::cout << "Loaded: " << i->getIid().toStdString() << std::endl;
         auto obj = plugin->createObject();
         static_cast<void>(obj);
-        // TODO
+
+        // TODO: manage the created objects
+
+        auto toolbarElem = plugin->getToolbarQmlElem();
+        if (!toolbarElem.isEmpty()) {
+            toolbarElems.append(toolbarElem);
+        }
     }
 
     if (result) {
         m_pluginMgr.setAppliedPlugins(infos);
+        GuiState::instance().setExtraToolbarElements(toolbarElems);
     }
 
     return result;

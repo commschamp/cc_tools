@@ -29,8 +29,14 @@ ToolBar {
                 CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginsSelection);
             }            
         }
-        
-        // TODO: extra buttons from plugin
+
+        Repeater {
+            model: CC_GuiState.extraToolbarElements
+            Loader {
+                source: modelData
+                active: source !== ""
+            }
+        }
     }
 
     Shortcut {

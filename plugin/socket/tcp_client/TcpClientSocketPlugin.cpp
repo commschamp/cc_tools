@@ -43,6 +43,12 @@ cc_tools::cc_plugin::PluginObjectPtr TcpClientSocketPlugin::createObjectImpl()
     return m_socket;
 }
 
+const QString& TcpClientSocketPlugin::getToolbarQmlElemImpl() const
+{
+    static const QString Str("qrc:/tcp_client_socket/qml/CC_TcpClientSocketToolbar.qml");
+    return Str;
+}
+
 void TcpClientSocketPlugin::createSocketIfNeeded()
 {
     if (!m_socket) {
