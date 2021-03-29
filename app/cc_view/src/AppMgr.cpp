@@ -5,6 +5,9 @@
 
 #include "QtCore/QDir"
 #include "QtCore/QCoreApplication"
+#include <QtQml/QQmlApplicationEngine>
+
+#include "cc_tools/cc_plugin/PluginIntegration.h"
 
 namespace cc_tools
 {
@@ -105,9 +108,18 @@ bool AppMgr::loadPlugins(
     return result;
 }
 
+void AppMgr::newPluginIntegrationObject(QObject* obj)
+{
+    QQmlEngine::setObjectOwnership(obj, QQmlEngine::CppOwnership);
+}
+
 AppMgr::AppMgr()
 {
     m_pluginMgr.setPluginsDir(getPluginsDir());
+
+    connect(
+        cc_tools::cc_plugin::PluginIntegration::instancePtr(), &cc_tools::cc_plugin::PluginIntegration::sigNewIntegrationObject,
+        this, &AppMgr::newPluginIntegrationObject);
 }
 
 AppMgr::ListOfPluginInfos AppMgr::getPluginInfos(const QStringList& pluginIids)

@@ -29,6 +29,7 @@
 #include <QtCore/QVariantList>
 
 #include "cc_tools/cc_plugin/Plugin.h"
+#include "cc_tools/cc_plugin/PluginIntegration.h"
 
 namespace cc_tools
 {
@@ -47,15 +48,37 @@ const QString NameMetaKey("name");
 const QString DescMetaKey("desc");
 const QString TypeMetaKey("type");
 
+void aboutToUnloadPlugin(const QString& iid)
+{
+    cc_tools::cc_plugin::PluginIntegration::instance().aboutToUnloadPlugin(iid);
+}
+
 struct PluginLoaderDeleter
 {
     void operator()(QPluginLoader* loader)
     {
         assert(loader != nullptr);
-        if (loader->isLoaded()) {
-            loader->unload();
-        }
-        delete loader;
+        std::unique_ptr<QPluginLoader> loaderPtr(loader);
+
+        if (!loader->isLoaded()) {
+            return;
+        }        
+
+        do {
+            auto metaData = loader->metaData();
+            if (metaData.isEmpty()) {
+                break;
+            }     
+
+            auto iid = metaData.value(IidMetaKey).toString();
+            if (!iid.isEmpty()) {
+                break;
+            }       
+
+            aboutToUnloadPlugin(iid);
+        } while (false);
+
+        loader->unload();
     }
 };
 
@@ -103,6 +126,7 @@ PluginMgrImpl::PluginInfo::Type parseType(const QString& val)
     return static_cast<PluginMgrImpl::PluginInfo::Type>(std::distance(std::begin(Values), iter));
 }
 
+
 }  // namespace
 
 PluginMgrImpl::PluginMgrImpl() = default;
@@ -113,6 +137,7 @@ PluginMgrImpl::~PluginMgrImpl() noexcept
         assert(pluginInfoPtr);
         assert(pluginInfoPtr->m_loader);
         if (pluginInfoPtr->m_loader->isLoaded()) {
+            aboutToUnloadPlugin(pluginInfoPtr->m_iid);
             pluginInfoPtr->m_loader->unload();
         }
     }
@@ -274,6 +299,7 @@ void PluginMgrImpl::unloadApplied()
         assert(pluginInfo);
         assert(pluginInfo->m_loader);
         assert (pluginInfo->m_loader->isLoaded());
+        aboutToUnloadPlugin(pluginInfo->m_iid);
         pluginInfo->m_loader->unload();
     }
     m_appliedPlugins.clear();
@@ -299,6 +325,7 @@ bool PluginMgrImpl::unloadAppliedPlugin(const PluginInfo& info)
     assert(pluginInfoPtr);
     assert(pluginInfoPtr->m_loader);
     assert (pluginInfoPtr->m_loader->isLoaded());
+    aboutToUnloadPlugin(pluginInfoPtr->m_iid);
     pluginInfoPtr->m_loader->unload();
     return true;
 }

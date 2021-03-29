@@ -34,6 +34,9 @@ public:
         const QStringList& filtersIids,
         const QString& pluginIid);
 
+private slots:
+    void newPluginIntegrationObject(QObject* obj);        
+
 private:
     AppMgr();
 

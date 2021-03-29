@@ -2,12 +2,23 @@
 #include <QtGui/QIcon>
 #include <QQmlApplicationEngine>
 
+#include "cc_tools/cc_plugin/PluginIntegration.h"
 #include "GuiState.h"
 #include "AppMgr.h"
 #include "PluginListModel.h"
 
 namespace 
 {
+
+QObject *getPluginIntegration(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+
+    auto* obj = cc_tools::cc_plugin::PluginIntegration::instancePtr();
+    QQmlEngine::setObjectOwnership(obj, QQmlEngine::CppOwnership);
+    return obj;
+}
 
 QObject *getGuiState(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -31,6 +42,7 @@ QObject *getAppMgr(QQmlEngine *engine, QJSEngine *scriptEngine)
 
 void qmlRegisterTypes()
 {
+    qmlRegisterSingletonType<cc_tools::cc_plugin::PluginIntegration>("CC", 1, 0, "CC_PluginIntegration", &getPluginIntegration);
     qmlRegisterSingletonType<cc_tools::cc_view::GuiState>("CC", 1, 0, "CC_GuiState", &getGuiState);
     qmlRegisterSingletonType<cc_tools::cc_view::AppMgr>("CC", 1, 0, "CC_AppMgr", &getAppMgr);
 

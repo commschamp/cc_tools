@@ -2,6 +2,8 @@ set (name "cc_plugin")
 set (src
     src/DataInfo.cpp
     src/Plugin.cpp
+    src/PluginIntegration.cpp
+    src/PluginIntegrationImpl.cpp
     src/PluginObject.cpp
     src/Protocol.cpp
     src/Socket.cpp
@@ -9,7 +11,7 @@ set (src
 
 set (hdr
     include/cc_tools/cc_plugin/Plugin.h
-    #include/cc_tools/cc_plugin/Socket.h
+    include/cc_tools/cc_plugin/PluginIntegration.h
 )
 
 add_library (${name} SHARED ${src} ${hdr})
