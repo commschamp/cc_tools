@@ -7,6 +7,7 @@ find_package(Qt5Network REQUIRED)
 set (name "cc_tcp_client_socket")
 set (src
     TcpClientSocket.cpp
+    TcpClientSocketIntegrationObj.cpp
     TcpClientSocketPlugin.cpp
 )
 

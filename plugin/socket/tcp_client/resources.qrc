@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/">
+        <file>tcp_client_socket/image/cog.png</file>
         <file>tcp_client_socket/image/connect.png</file>
+        <file>tcp_client_socket/image/disconnect.png</file>
         <file>tcp_client_socket/qml/CC_TcpClientSocketToolbar.qml</file>
     </qresource>
 </RCC>

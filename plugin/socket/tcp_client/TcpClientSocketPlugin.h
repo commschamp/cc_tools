@@ -22,6 +22,7 @@
 
 #include "cc_tools/cc_plugin/Plugin.h"
 #include "TcpClientSocket.h"
+#include "TcpClientSocketIntegrationObj.h"
 
 namespace cc_tools
 {
@@ -46,10 +47,15 @@ protected:
     virtual cc_tools::cc_plugin::PluginObjectPtr createObjectImpl() override;
     virtual const QString& getToolbarQmlElemImpl() const override;
 
+private slots:
+    void socketConnectReq(bool value);
+    void configDialogReq(bool value);
+
 private:    
     void createSocketIfNeeded();
 
-    TcpClientSocketPtr m_socket;    
+    TcpClientSocketPtr m_socket;  
+    TcpClientSocketIntegrationObjPtr m_integration;  
 };
 
 } // namespace socket

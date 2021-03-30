@@ -19,6 +19,9 @@
 
 #include <memory>
 #include <cassert>
+#include <iostream>
+
+#include "cc_tools/cc_plugin/PluginIntegration.h"
 
 #include "TcpClientSocket.h"
 
@@ -31,8 +34,29 @@ namespace cc_plugin
 namespace socket
 {
 
-TcpClientSocketPlugin::TcpClientSocketPlugin()
+namespace 
 {
+
+const QString Iid("cc.TcpClientSocketPlugin");
+
+} // namespace 
+
+
+TcpClientSocketPlugin::TcpClientSocketPlugin() :
+    m_integration(makeTcpClientSocketIntegrationObj())
+{
+    auto& pluginIntegration = cc_tools::cc_plugin::PluginIntegration::instance();
+    pluginIntegration.registerIntegrationObject(Iid, *m_integration);
+
+    connect(
+        m_integration.get(), &TcpClientSocketIntegrationObj::sigConnectedChanged,
+        this, &TcpClientSocketPlugin::socketConnectReq
+    );
+
+    connect(
+        m_integration.get(), &TcpClientSocketIntegrationObj::sigSettingsDisplayedChanged,
+        this, &TcpClientSocketPlugin::configDialogReq
+    );    
 }
 
 TcpClientSocketPlugin::~TcpClientSocketPlugin() noexcept = default;
@@ -47,6 +71,18 @@ const QString& TcpClientSocketPlugin::getToolbarQmlElemImpl() const
 {
     static const QString Str("qrc:/tcp_client_socket/qml/CC_TcpClientSocketToolbar.qml");
     return Str;
+}
+
+void TcpClientSocketPlugin::socketConnectReq(bool value)
+{
+    // TODO:
+    std::cout << __FUNCTION__ << ": value=" << value << std::endl;
+}
+
+void TcpClientSocketPlugin::configDialogReq(bool value)
+{
+    // TODO:
+    std::cout << __FUNCTION__ << ": value=" << value << std::endl;
 }
 
 void TcpClientSocketPlugin::createSocketIfNeeded()
