@@ -45,8 +45,13 @@ public:
     Q_INVOKABLE QObject* getIntegrationObject(const QString& iid);
     void aboutToUnloadPlugin(const QString& iid);
 
+    Q_INVOKABLE void activateDialog(const QString& rsrc);
+    Q_INVOKABLE void closeCurrentDialog();
+
 signals:
-    void sigNewIntegrationObject(QObject* obj);     
+    void sigNewIntegrationObject(QObject* obj);
+    void sigActivateDialog(const QString& rsrc);     
+    void sigCloseCurrentDialog();     
 
 private:
     PluginIntegration();

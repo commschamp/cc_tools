@@ -47,6 +47,7 @@ public:
     void getCurrentConfig(QVariantMap& config);
     QVariantMap getCurrentConfig();
     void reconfigure(const QVariantMap& config);
+    void aboutToApply();
 
     PluginObjectPtr createObject();
 
@@ -57,6 +58,7 @@ protected:
     virtual void reconfigureImpl(const QVariantMap& config);
     virtual PluginObjectPtr createObjectImpl() = 0;
     virtual const QString& getToolbarQmlElemImpl() const;
+    virtual void aboutToApplyImpl();
 };
 
 } // namespace cc_plugin

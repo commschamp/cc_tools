@@ -52,6 +52,15 @@ void PluginIntegration::aboutToUnloadPlugin(const QString& iid)
     m_pImpl->aboutToUnloadPlugin(iid);
 }
 
+void PluginIntegration::activateDialog(const QString& rsrc)
+{
+    emit sigActivateDialog(rsrc);
+}
+
+void PluginIntegration::closeCurrentDialog()
+{
+    emit sigCloseCurrentDialog();
+}
 
 PluginIntegration::PluginIntegration() :
     m_pImpl(std::make_unique<PluginIntegrationImpl>())

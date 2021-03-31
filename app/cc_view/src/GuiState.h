@@ -39,10 +39,6 @@ public:
     static GuiState& instance();
     static GuiState* instancePtr();
 
-    Q_INVOKABLE void activateDialog(DialogType type);
-    Q_INVOKABLE void activateDialog(const QString& rsrc);
-    Q_INVOKABLE void closeCurrentDialog();
-
     CC_MEMBER(QString, DialogQml)
     CC_MEMBER(QString, SocketPluginName)
     CC_MEMBER(QString, SocketPluginIid)
@@ -50,6 +46,11 @@ public:
     CC_MEMBER(QString, ProtocolPluginIid)
     CC_MEMBER(QStringList, FilterPluginsIids)
     CC_MEMBER(QStringList, ExtraToolbarElements)
+
+public slots:
+    Q_INVOKABLE void activateDialog(DialogType type);
+    Q_INVOKABLE void activateDialogByResource(const QString& rsrc);
+    Q_INVOKABLE void closeCurrentDialog();
 
 signals:
     void sigDialogQmlChanged(const QString& value);    

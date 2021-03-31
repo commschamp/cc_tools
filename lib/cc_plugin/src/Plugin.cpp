@@ -45,6 +45,11 @@ void Plugin::reconfigure(const QVariantMap& config)
     reconfigureImpl(config);
 }
 
+void Plugin::aboutToApply()
+{
+    aboutToApplyImpl();
+}
+
 PluginObjectPtr Plugin::createObject()
 {
     auto obj = createObjectImpl();
@@ -71,6 +76,11 @@ const QString& Plugin::getToolbarQmlElemImpl() const
 {
     static const QString Str;
     return Str;
+}
+
+void Plugin::aboutToApplyImpl()
+{
+    // Do nothing
 }
 
 } // namespace cc_plugin

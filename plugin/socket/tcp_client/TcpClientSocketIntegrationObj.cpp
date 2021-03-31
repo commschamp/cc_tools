@@ -93,6 +93,18 @@ bool TcpClientSocketIntegrationObj::getSettingsDisplayed() const
     return m_settingsDisplayed;
 }
 
+void TcpClientSocketIntegrationObj::setApplying(bool value)
+{
+    m_applying = value;
+    emit sigApplyingChanged(m_applying);
+}
+
+bool TcpClientSocketIntegrationObj::getApplying() const
+{
+    return m_applying;
+}
+
+
 } // namespace socket
 
 } // namespace cc_plugin

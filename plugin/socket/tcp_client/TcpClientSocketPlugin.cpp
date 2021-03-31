@@ -73,16 +73,39 @@ const QString& TcpClientSocketPlugin::getToolbarQmlElemImpl() const
     return Str;
 }
 
+void TcpClientSocketPlugin::aboutToApplyImpl()
+{
+    m_integration->setApplying(true);
+}
+
 void TcpClientSocketPlugin::socketConnectReq(bool value)
 {
     // TODO:
     std::cout << __FUNCTION__ << ": value=" << value << std::endl;
+    createSocketIfNeeded();
+    if (!value) {
+        m_socket->socketDisconnect();
+        return;
+    }
+
+    if (!m_socket->socketConnect()) {
+        // TODO: report error
+        std::cout << __FUNCTION__ << ": Failed to connect!!!!" << std::endl;
+    }
 }
 
 void TcpClientSocketPlugin::configDialogReq(bool value)
 {
-    // TODO:
     std::cout << __FUNCTION__ << ": value=" << value << std::endl;
+
+    auto& pluginIntegration = cc_tools::cc_plugin::PluginIntegration::instance();
+    if (!value) {
+        pluginIntegration.closeCurrentDialog();
+        return;
+    }
+
+    static const QString Src("qrc:/tcp_client_socket/qml/CC_TcpClientSocketConfigDialog.qml");
+    pluginIntegration.activateDialog(Src);
 }
 
 void TcpClientSocketPlugin::createSocketIfNeeded()

@@ -99,6 +99,7 @@ bool AppMgr::loadPlugins(
         }
 
         std::cout << "Loaded: " << i->getIid().toStdString() << std::endl;
+        plugin->aboutToApply();
         auto obj = plugin->createObject();
         static_cast<void>(obj);
 
@@ -127,9 +128,20 @@ AppMgr::AppMgr()
 {
     m_pluginMgr.setPluginsDir(getPluginsDir());
 
+    auto* pluginIntegration = cc_tools::cc_plugin::PluginIntegration::instancePtr();
+    auto* guiState = GuiState::instancePtr();
+
     connect(
-        cc_tools::cc_plugin::PluginIntegration::instancePtr(), &cc_tools::cc_plugin::PluginIntegration::sigNewIntegrationObject,
+        pluginIntegration, &cc_tools::cc_plugin::PluginIntegration::sigNewIntegrationObject,
         this, &AppMgr::newPluginIntegrationObject);
+
+    connect(
+        pluginIntegration, &cc_tools::cc_plugin::PluginIntegration::sigActivateDialog,
+        guiState, &GuiState::activateDialogByResource);    
+
+    connect(
+        pluginIntegration, &cc_tools::cc_plugin::PluginIntegration::sigCloseCurrentDialog,
+        guiState, &GuiState::closeCurrentDialog);        
 }
 
 AppMgr::ListOfPluginInfos AppMgr::getPluginInfos(const QStringList& pluginIids)

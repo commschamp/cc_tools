@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <type_traits>
+#include <iostream>
 
 namespace cc_tools
 {
@@ -47,13 +48,16 @@ void GuiState::activateDialog(DialogType type)
         return;
     }
 
-    activateDialog(Map[idx]);
+    activateDialogByResource(Map[idx]);
 }
 
-void GuiState::activateDialog(const QString& rsrc)
+void GuiState::activateDialogByResource(const QString& rsrc)
 {
+    std::cout << "!!!! Activating dialog: " << rsrc.toStdString() << std::endl;
     m_dialogsQueue.append(rsrc);
+    std::cout << "!!!! Queue: " << m_dialogsQueue.size() << std::endl;
     if (m_dialogsQueue.size() == 1) {
+        std::cout << "!!!! Displaying!!!!" << std::endl;
         displayNextDialog();
     }
 }
