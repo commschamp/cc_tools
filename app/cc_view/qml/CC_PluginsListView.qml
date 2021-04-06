@@ -29,7 +29,8 @@ ListView {
 
     delegate: Rectangle {
         id: elem
-        color: selected ? "lightsteelblue" : "gainsboro"
+        //color: selected ? "lightsteelblue" : "gainsboro"
+        border.color: selected ? "blue" : color
         height: root.elemHeight
         radius: 5
         anchors.left: parent.left
@@ -39,8 +40,11 @@ ListView {
         focus: selected
 
         Text {
-            anchors.centerIn: parent
             text: name
+            anchors.left: parent.left
+            anchors.leftMargin: 5
+            anchors.rightMargin: 5
+            anchors.verticalCenter: parent.verticalCenter
         }
 
         MouseArea {
@@ -124,18 +128,3 @@ ListView {
         pluginIid = iidStr;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

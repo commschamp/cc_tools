@@ -13,66 +13,74 @@ Dialogs.Dialog {
 
     property bool socketValid: false
     property bool protocolValid: false
-    property bool okEnabled: socketValid && protocolValid // TODO: should be true when applicable
+    property bool okEnabled: socketValid && protocolValid 
 
     ColumnLayout {
-        width: 200
-        TextField {
-            id: socketText
-            placeholderText: qsTr("Socket") + " (" + socketShortcut.sequence + ")"
-            text: CC_GuiState.socketPluginName
-
-            Shortcut {
-                id: socketShortcut
-                sequence: "Alt+S"
-                onActivated: socketText.forceActiveFocus();
-            }
+        CC_PluginsConfigToolbar {
+            Layout.fillWidth: true
         }
 
-        CC_PluginsListView {
-            Layout.fillWidth: true
-            Layout.leftMargin: 20
-            focus: true         
+        CC_AvailablePluginsLists {}
 
-            pluginType: CC_PluginListModel.Type_Socket
-            searchStr: socketText.text
+        ColumnLayout {
+            //width: 200
+            TextField {
+                id: socketText
+                placeholderText: qsTr("Socket") + " (" + socketShortcut.sequence + ")"
+                text: CC_GuiState.socketPluginName
 
-            onSelectedNameChanged: {
-                CC_GuiState.socketPluginName = selectedName;
+                Shortcut {
+                    id: socketShortcut
+                    sequence: "Alt+S"
+                    onActivated: socketText.forceActiveFocus();
+                }
             }
 
-            onPluginIidChanged: {
-                CC_GuiState.socketPluginIid = pluginIid;
-                root.socketValid = (pluginIid !== "");
-            }
-        }
+            CC_PluginsListView {
+                Layout.fillWidth: true
+                Layout.leftMargin: 20
+                focus: true         
 
-        TextField {
-            id: protocolText
-            placeholderText: qsTr("Protocol")
-            text: CC_GuiState.protocolPluginName
+                pluginType: CC_PluginListModel.Type_Socket
+                searchStr: socketText.text
 
-            Shortcut {
-                sequence: "Alt+P"
-                onActivated: protocolText.forceActiveFocus();
-            }
-        }                
+                onSelectedNameChanged: {
+                    CC_GuiState.socketPluginName = selectedName;
+                }
 
-        CC_PluginsListView {
-            Layout.fillWidth: true
-            Layout.leftMargin: 20
-            focus: true         
-
-            pluginType: CC_PluginListModel.Type_Protocol
-            searchStr: protocolText.text
-
-            onSelectedNameChanged: {
-                CC_GuiState.protocolPluginName = selectedName;
+                onPluginIidChanged: {
+                    CC_GuiState.socketPluginIid = pluginIid;
+                    root.socketValid = (pluginIid !== "");
+                }
             }
 
-            onPluginIidChanged: {
-                CC_GuiState.protocolPluginIid = pluginIid;
-                root.protocolValid = (pluginIid !== "");
+            TextField {
+                id: protocolText
+                placeholderText: qsTr("Protocol")
+                text: CC_GuiState.protocolPluginName
+
+                Shortcut {
+                    sequence: "Alt+P"
+                    onActivated: protocolText.forceActiveFocus();
+                }
+            }                
+
+            CC_PluginsListView {
+                Layout.fillWidth: true
+                Layout.leftMargin: 20
+                focus: true         
+
+                pluginType: CC_PluginListModel.Type_Protocol
+                searchStr: protocolText.text
+
+                onSelectedNameChanged: {
+                    CC_GuiState.protocolPluginName = selectedName;
+                }
+
+                onPluginIidChanged: {
+                    CC_GuiState.protocolPluginIid = pluginIid;
+                    root.protocolValid = (pluginIid !== "");
+                }
             }
         }
     }

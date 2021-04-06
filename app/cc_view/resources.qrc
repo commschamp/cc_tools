@@ -1,12 +1,16 @@
 <RCC>
     <qresource prefix="/">
         <file>image/app_icon.png</file>
+        <file>image/folder.png</file>
         <file>image/plugin_select.png</file>
+        <file>qml/CC_AvailablePluginsLists.qml</file>
+        <file>qml/CC_PluginsConfigToolbar.qml</file>
         <file>qml/CC_PluginsListView.qml</file>
         <file>qml/CC_PluginsReloadConfirmDialog.qml</file>
         <file>qml/CC_PluginsReloadErrorDialog.qml</file>
         <file>qml/CC_PluginsSelectDialog.qml</file>
         <file>qml/CC_Toolbar.qml</file>
+        <file>qml/CC_ToolbarBackground.qml</file>
         <file>qml/CC_ToolButton.qml</file>
         <file>qml/CC_Tooltip.qml</file>
         <file>qml/main.qml</file>

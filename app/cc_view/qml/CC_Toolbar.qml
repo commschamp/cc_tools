@@ -8,10 +8,7 @@ import "qrc:/qml"
 ToolBar {
     id: root
     height: 40
-    background: Rectangle {
-        color: "lightgrey"
-        anchors.fill: parent
-    }
+    background: CC_ToolbarBackground {}
     anchors.left: parent.left
     anchors.right: parent.right
 
@@ -23,7 +20,7 @@ ToolBar {
 
         CC_ToolButton {
             image.source: "qrc:/image/plugin_select.png"
-            tooltip.text: qsTr("Select plugins") + " (Ctrl+P)"
+            tooltip.text: qsTr("Select plugins") + " (" + pluginsDialogShortcut.nativeText + ")";
 
             onClicked: {
                 CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginsSelection);
@@ -40,6 +37,7 @@ ToolBar {
     }
 
     Shortcut {
+        id: pluginsDialogShortcut
         sequence: "Ctrl+P"
         enabled: true
         onActivated: {
