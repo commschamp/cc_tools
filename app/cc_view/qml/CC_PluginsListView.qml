@@ -5,15 +5,13 @@ import CC 1.0
 
 import "qrc:/qml"
 
-ListView {
+GroupBox {
     id: root
-    currentIndex: -1
-    height: model.count > maxElemsToShow ? (maxElemsToShow * elemHeight) : contentHeight
-    ScrollBar.vertical: ScrollBar {}
 
     // Input params
     property int pluginType: CC_PluginListModel.Type_Invalid
     property string searchStr: ""
+    property alias listView: listView
 
     // Output params
     property string selectedName: ""
@@ -23,108 +21,115 @@ ListView {
     readonly property int elemHeight: 30
     readonly property int maxElemsToShow: 6
 
-    model: CC_PluginListModel {
-        pluginType: root.pluginType
-    }
+    ColumnLayout {
+        anchors.fill: parent
+        ListView {
+            id: listView
+            currentIndex: -1
+            height: listView.model.count > maxElemsToShow ? (maxElemsToShow * elemHeight) : contentHeight
+            
+            ScrollBar.vertical: ScrollBar {}
 
-    delegate: Rectangle {
-        id: elem
-        //color: selected ? "lightsteelblue" : "gainsboro"
-        border.color: selected ? "blue" : color
-        height: root.elemHeight
-        radius: 5
-        anchors.left: parent.left
-        anchors.right: parent.right
+            model: CC_PluginListModel {
+                pluginType: root.pluginType
+            }
 
-        property bool selected: index == root.currentIndex
-        focus: selected
+            delegate: Rectangle {
+                id: elem
+                border.color: ListView.isCurrentItem ? "blue" : color
+                height: root.elemHeight
+                radius: 5
+                anchors.left: parent.left
+                anchors.right: parent.right
 
-        Text {
-            text: name
-            anchors.left: parent.left
-            anchors.leftMargin: 5
-            anchors.rightMargin: 5
-            anchors.verticalCenter: parent.verticalCenter
-        }
-
-        MouseArea {
-            id: mouseArea
-            anchors.fill: parent
-            hoverEnabled: true
-
-            onClicked: {
-                var indexChanged = root.currentIndex != index;
-                if (!indexChanged) {
-                    root.currentIndex = -1;    
-                    root.selectedName = "";
+                Text {
+                    text: name
+                    anchors.left: parent.left
+                    anchors.leftMargin: 5
+                    anchors.rightMargin: 5
+                    anchors.verticalCenter: parent.verticalCenter
                 }
 
-                root.currentIndex = index;
-                root.selectedName = root.model.getNameOf(index);
+                MouseArea {
+                    id: mouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+
+                    onClicked: {
+                        var indexChanged = listView.currentIndex != index;
+                        if (!indexChanged) {
+                            listView.currentIndex = -1;    
+                            root.selectedName = "";
+                        }
+
+                        listView.currentIndex = index;
+                        root.selectedName = listView.model.getNameOf(index);
+                    }
+                }
+
+                ToolTip.visible: mouseArea.containsMouse && (ToolTip.text !== "")
+                ToolTip.text: listView.model.getDescriptionOf(index);
+                ToolTip.delay: 1000
+            }
+
+            Component.onCompleted: {
+                updateSelection();
+            }
+
+            function updateSelection() {
+                if (searchStr === "") {
+                    currentIndex = -1;
+                    updateIid();
+                    return;
+                }
+
+                var searchStrTmp = searchStr.toLowerCase();
+                var startsIdx = -1;
+                var substrIdx = -1;
+                for (var idx = 0; idx < model.rowCount(); ++idx) {
+                    var pluginNameTmp = model.getNameOf(idx).toLowerCase();
+                    if ((startsIdx < 0) && pluginNameTmp.startsWith(searchStrTmp)) {
+                        startsIdx = idx;
+                        break;
+                    }
+
+                    if ((substrIdx < 0) && (pluginNameTmp.includes(searchStrTmp))) {
+                        substrIdx = idx;
+                        continue;
+                    }
+                }
+
+                if (0 <= startsIdx) {
+                    currentIndex = startsIdx;
+                    updateIid();
+                    return;    
+                }
+
+                currentIndex = substrIdx;
+                updateIid();
+            }
+
+            function updateIid() {
+                var iidStr = "";
+                do {
+                    if (currentIndex < 0) {
+                        break;
+                    }
+
+                    var searchStrTmp = searchStr.toLowerCase();
+                    if (model.getNameOf(currentIndex).toLowerCase() != searchStrTmp) {
+                        break;
+                    }
+
+                    iidStr = model.getIidOf(currentIndex);
+                } while (false);
+
+                pluginIid = iidStr;
             }
         }
-
-        ToolTip.visible: mouseArea.containsMouse && (ToolTip.text !== "")
-        ToolTip.text: root.model.getDescriptionOf(index);
-        ToolTip.delay: 1000
     }
 
     onSearchStrChanged: {
-        updateSelection();
-    }
-
-    Component.onCompleted: {
-        updateSelection();
-    }
-
-    function updateSelection() {
-        if (searchStr === "") {
-            currentIndex = -1;
-            updateIid();
-            return;
-        }
-
-        var searchStrTmp = searchStr.toLowerCase();
-        var startsIdx = -1;
-        var substrIdx = -1;
-        for (var idx = 0; idx < model.rowCount(); ++idx) {
-            var pluginNameTmp = model.getNameOf(idx).toLowerCase();
-            if ((startsIdx < 0) && pluginNameTmp.startsWith(searchStrTmp)) {
-                startsIdx = idx;
-                break;
-            }
-
-            if ((substrIdx < 0) && (pluginNameTmp.includes(searchStrTmp))) {
-                substrIdx = idx;
-                continue;
-            }
-        }
-
-        if (0 <= startsIdx) {
-            currentIndex = startsIdx;
-            updateIid();
-            return;    
-        }
-
-        currentIndex = substrIdx;
-        updateIid();
-    }
-
-    function updateIid() {
-        var iidStr = "";
-        do {
-            if (currentIndex < 0) {
-                break;
-            }
-
-            var searchStrTmp = searchStr.toLowerCase();
-            if (model.getNameOf(currentIndex).toLowerCase() != searchStrTmp) {
-                break;
-            }
-
-            iidStr = model.getIidOf(currentIndex);
-        } while (false);
-
-        pluginIid = iidStr;
+        listView.updateSelection();
     }
 }

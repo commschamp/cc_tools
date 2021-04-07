@@ -16,6 +16,9 @@ Dialogs.Dialog {
     property bool okEnabled: socketValid && protocolValid 
 
     ColumnLayout {
+        id: mainLayout
+        anchors.fill: parent
+
         CC_PluginsConfigToolbar {
             Layout.fillWidth: true
         }
@@ -119,6 +122,9 @@ Dialogs.Dialog {
 
     Component.onCompleted: {
         visible = true;
+
+        // Hacky width adjustement, otherwise the dialog hides the right edge
+        width = contentItem.implicitWidth + 16;
     }
 }
 

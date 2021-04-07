@@ -13,24 +13,27 @@ RowLayout {
 
     CC_PluginsListView {
         focus: true         
-        height: forcedListHeight
-        width: forcedListWidth
+        title: "Available Sockets"
+        listView.height: forcedListHeight
+        listView.width: forcedListWidth
 
         pluginType: CC_PluginListModel.Type_Socket
     }
 
     CC_PluginsListView {
         focus: true         
-        height: forcedListHeight
-        width: forcedListWidth
+        title: "Available Filters"
+        listView.height: forcedListHeight
+        listView.width: forcedListWidth
 
         pluginType: CC_PluginListModel.Type_Filter
     }
 
     CC_PluginsListView {
         focus: true         
-        height: forcedListHeight
-        width: forcedListWidth
+        title: "Available Protocols"
+        listView.height: forcedListHeight
+        listView.width: forcedListWidth
 
         pluginType: CC_PluginListModel.Type_Protocol
     }
