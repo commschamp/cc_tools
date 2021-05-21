@@ -89,6 +89,11 @@ Dialogs.Dialog {
     }
 
     onAccepted: {
+        if (!okEnabled) {
+            onRejected();
+            return;
+        }
+        
         console.log("accepted");
         var requiresConfirmation = 
             CC_AppMgr.requiresPluginsReloadConfirmation(

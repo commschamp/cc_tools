@@ -21,6 +21,17 @@ GroupBox {
     readonly property int elemHeight: 30
     readonly property int maxElemsToShow: 6
 
+    label: Label {
+        x: root.leftPadding
+        width: root.availableWidth
+        text: root.title
+        //color: "#21be2b"
+        elide: Text.ElideRight
+        horizontalAlignment: Text.AlignHCenter
+        font.pointSize: 12
+        font.bold: true
+    }
+
     ColumnLayout {
         anchors.fill: parent
         ListView {
