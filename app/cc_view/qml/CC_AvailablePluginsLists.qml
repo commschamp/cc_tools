@@ -11,31 +11,47 @@ RowLayout {
     readonly property int forcedListHeight: 150
     readonly property int forcedListWidth: 200
 
-    CC_PluginsListView {
-        focus: true         
+    CC_PluginsListGroupBox {
+        id: socketsList
         title: "Available Sockets"
-        listView.height: forcedListHeight
-        listView.width: forcedListWidth
+        view.listView.height: forcedListHeight
+        view.listView.width: forcedListWidth
 
-        pluginType: CC_PluginListModel.Type_Socket
+        view.pluginType: CC_PluginListModel.Type_Socket
+        view.pluginIid: CC_GuiState.socketPluginIid
+
+        Connections {
+            target: socketsList.view
+            onPluginIidChanged: { 
+                CC_GuiState.selectedSocketPluginIid = socketsList.view.pluginIid;
+            }
+        }
     }
 
-    CC_PluginsListView {
-        focus: true         
+    CC_PluginsListGroupBox {
         title: "Available Filters"
-        listView.height: forcedListHeight
-        listView.width: forcedListWidth
+        view.listView.height: forcedListHeight
+        view.listView.width: forcedListWidth
 
-        pluginType: CC_PluginListModel.Type_Filter
+        view.pluginType: CC_PluginListModel.Type_Filter
     }
 
-    CC_PluginsListView {
-        focus: true         
+    CC_PluginsListGroupBox {
+        id: protocolsList
         title: "Available Protocols"
-        listView.height: forcedListHeight
-        listView.width: forcedListWidth
+        view.listView.height: forcedListHeight
+        view.listView.width: forcedListWidth
 
-        pluginType: CC_PluginListModel.Type_Protocol
+        view.pluginType: CC_PluginListModel.Type_Protocol
+        view.pluginIid: CC_GuiState.protocolPluginIid
+
+        Connections {
+            target: protocolsList.view
+            onPluginIidChanged: { 
+                CC_GuiState.selectedProtocolPluginIid = protocolsList.view.pluginIid;
+            }
+        }
+
     }
 }
 

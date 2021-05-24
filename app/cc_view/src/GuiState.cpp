@@ -53,11 +53,8 @@ void GuiState::activateDialog(DialogType type)
 
 void GuiState::activateDialogByResource(const QString& rsrc)
 {
-    std::cout << "!!!! Activating dialog: " << rsrc.toStdString() << std::endl;
     m_dialogsQueue.append(rsrc);
-    std::cout << "!!!! Queue: " << m_dialogsQueue.size() << std::endl;
     if (m_dialogsQueue.size() == 1) {
-        std::cout << "!!!! Displaying!!!!" << std::endl;
         displayNextDialog();
     }
 }

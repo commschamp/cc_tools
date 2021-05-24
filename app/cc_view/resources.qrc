@@ -5,6 +5,7 @@
         <file>image/plugin_select.png</file>
         <file>qml/CC_AvailablePluginsLists.qml</file>
         <file>qml/CC_PluginsConfigToolbar.qml</file>
+        <file>qml/CC_PluginsListGroupBox.qml</file>
         <file>qml/CC_PluginsListView.qml</file>
         <file>qml/CC_PluginsReloadConfirmDialog.qml</file>
         <file>qml/CC_PluginsReloadErrorDialog.qml</file>

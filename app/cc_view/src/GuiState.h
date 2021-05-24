@@ -16,11 +16,12 @@ class GuiState : public QObject
     Q_OBJECT    
 
     Q_PROPERTY(QString dialogQml READ getDialogQml WRITE setDialogQml NOTIFY sigDialogQmlChanged)
-    Q_PROPERTY(QString socketPluginName READ getSocketPluginName WRITE setSocketPluginName NOTIFY sigSocketPluginNameChanged)
     Q_PROPERTY(QString socketPluginIid READ getSocketPluginIid WRITE setSocketPluginIid NOTIFY sigSocketPluginIidChanged)
-    Q_PROPERTY(QString protocolPluginName READ getProtocolPluginName WRITE setProtocolPluginName NOTIFY sigProtocolPluginNameChanged)
+    Q_PROPERTY(QString selectedSocketPluginIid READ getSelectedSocketPluginIid WRITE setSelectedSocketPluginIid NOTIFY sigSelectedSocketPluginIidChanged)
     Q_PROPERTY(QString protocolPluginIid READ getProtocolPluginIid WRITE setProtocolPluginIid NOTIFY sigProtocolPluginIidChanged)
+    Q_PROPERTY(QString selectedProtocolPluginIid READ getSelectedProtocolPluginIid WRITE setSelectedProtocolPluginIid NOTIFY sigSelectedProtocolPluginIidChanged)
     Q_PROPERTY(QStringList filterPluginsIids READ getFilterPluginsIids WRITE setFilterPluginsIids NOTIFY sigFilterPluginsIidsChanged)
+    Q_PROPERTY(QStringList selectedFilterPluginsIids READ getSelectedFilterPluginsIids WRITE setSelectedFilterPluginsIids NOTIFY sigSelectedFilterPluginsIidsChanged)
     Q_PROPERTY(QStringList extraToolbarElements READ getExtraToolbarElements WRITE setExtraToolbarElements NOTIFY sigExtraToolbarElementsChanged)
     
 public:
@@ -40,11 +41,12 @@ public:
     static GuiState* instancePtr();
 
     CC_MEMBER(QString, DialogQml)
-    CC_MEMBER(QString, SocketPluginName)
     CC_MEMBER(QString, SocketPluginIid)
-    CC_MEMBER(QString, ProtocolPluginName)
+    CC_MEMBER(QString, SelectedSocketPluginIid)
     CC_MEMBER(QString, ProtocolPluginIid)
+    CC_MEMBER(QString, SelectedProtocolPluginIid)
     CC_MEMBER(QStringList, FilterPluginsIids)
+    CC_MEMBER(QStringList, SelectedFilterPluginsIids)
     CC_MEMBER(QStringList, ExtraToolbarElements)
 
 public slots:
@@ -54,11 +56,12 @@ public slots:
 
 signals:
     void sigDialogQmlChanged(const QString& value);    
-    void sigSocketPluginNameChanged(const QString& value);
     void sigSocketPluginIidChanged(const QString& value);
-    void sigProtocolPluginNameChanged(const QString& value);
+    void sigSelectedSocketPluginIidChanged(const QString& value);
     void sigProtocolPluginIidChanged(const QString& value);
+    void sigSelectedProtocolPluginIidChanged(const QString& value);
     void sigFilterPluginsIidsChanged(const QStringList& value);
+    void sigSelectedFilterPluginsIidsChanged(const QStringList& value);
     void sigExtraToolbarElementsChanged(const QStringList& value);
 
 private:

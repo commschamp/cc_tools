@@ -14,11 +14,16 @@ MessageDialog {
     onYes: {
         var applied = 
             CC_AppMgr.loadPlugins(
-                CC_GuiState.socketPluginIid,
-                CC_GuiState.filterPluginsIids,
-                CC_GuiState.protocolPluginIid);
+                CC_GuiState.selectedSocketPluginIid,
+                CC_GuiState.selectedFilterPluginsIids,
+                CC_GuiState.selectedProtocolPluginIid);
 
-        if (!applied) {
+        if (applied) {
+            CC_GuiState.socketPluginIid = CC_GuiState.selectedSocketPluginIid;
+            CC_GuiState.filterPluginsIids = CC_GuiState.selectedFilterPluginsIids;
+            CC_GuiState.protocolPluginIid = CC_GuiState.selectedProtocolPluginIid;
+        }
+        else {
             CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginsReloadError);
         }
 

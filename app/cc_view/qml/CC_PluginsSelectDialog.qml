@@ -11,8 +11,8 @@ Dialogs.Dialog {
     title: "Plugin Configuration"
     standardButtons: Dialogs.StandardButton.Cancel | (okEnabled ? Dialogs.StandardButton.Ok : 0)
 
-    property bool socketValid: false
-    property bool protocolValid: false
+    property bool socketValid: CC_GuiState.selectedSocketPluginIid !== ""
+    property bool protocolValid: CC_GuiState.selectedProtocolPluginIid != ""
     property bool okEnabled: socketValid && protocolValid 
 
     ColumnLayout {
@@ -23,14 +23,16 @@ Dialogs.Dialog {
             Layout.fillWidth: true
         }
 
-        CC_AvailablePluginsLists {}
+        CC_AvailablePluginsLists {
+            id: availablePlugins
+        }
 
         ColumnLayout {
             //width: 200
             TextField {
                 id: socketText
                 placeholderText: qsTr("Socket") + " (" + socketShortcut.sequence + ")"
-                text: CC_GuiState.socketPluginName
+                //text: CC_GuiState.socketPluginName
 
                 Shortcut {
                     id: socketShortcut
@@ -39,52 +41,16 @@ Dialogs.Dialog {
                 }
             }
 
-            CC_PluginsListView {
-                Layout.fillWidth: true
-                Layout.leftMargin: 20
-                focus: true         
-
-                pluginType: CC_PluginListModel.Type_Socket
-                searchStr: socketText.text
-
-                onSelectedNameChanged: {
-                    CC_GuiState.socketPluginName = selectedName;
-                }
-
-                onPluginIidChanged: {
-                    CC_GuiState.socketPluginIid = pluginIid;
-                    root.socketValid = (pluginIid !== "");
-                }
-            }
-
             TextField {
                 id: protocolText
                 placeholderText: qsTr("Protocol")
-                text: CC_GuiState.protocolPluginName
+                //text: CC_GuiState.protocolPluginName
 
                 Shortcut {
                     sequence: "Alt+P"
                     onActivated: protocolText.forceActiveFocus();
                 }
             }                
-
-            CC_PluginsListView {
-                Layout.fillWidth: true
-                Layout.leftMargin: 20
-                focus: true         
-
-                pluginType: CC_PluginListModel.Type_Protocol
-                searchStr: protocolText.text
-
-                onSelectedNameChanged: {
-                    CC_GuiState.protocolPluginName = selectedName;
-                }
-
-                onPluginIidChanged: {
-                    CC_GuiState.protocolPluginIid = pluginIid;
-                    root.protocolValid = (pluginIid !== "");
-                }
-            }
         }
     }
 
@@ -95,11 +61,12 @@ Dialogs.Dialog {
         }
         
         console.log("accepted");
+
         var requiresConfirmation = 
             CC_AppMgr.requiresPluginsReloadConfirmation(
-                CC_GuiState.socketPluginIid,
-                CC_GuiState.filterPluginsIids,
-                CC_GuiState.protocolPluginIid);
+                CC_GuiState.selectedSocketPluginIid,
+                CC_GuiState.selectedFilterPluginsIids,
+                CC_GuiState.selectedProtocolPluginIid);
 
         if (requiresConfirmation) {
             CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginsReloadConfirmation);
@@ -109,14 +76,17 @@ Dialogs.Dialog {
 
         var applied = 
             CC_AppMgr.loadPlugins(
-                CC_GuiState.socketPluginIid,
-                CC_GuiState.filterPluginsIids,
-                CC_GuiState.protocolPluginIid);
+                CC_GuiState.selectedSocketPluginIid,
+                CC_GuiState.selectedFilterPluginsIids,
+                CC_GuiState.selectedProtocolPluginIid);
 
         if (!applied) {
             CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginsReloadError);
         }
 
+        CC_GuiState.socketPluginIid = CC_GuiState.selectedSocketPluginIid;
+        CC_GuiState.filterPluginsIids = CC_GuiState.selectedFilterPluginsIids;
+        CC_GuiState.protocolPluginIid = CC_GuiState.selectedProtocolPluginIid;
         CC_GuiState.closeCurrentDialog();
     }
 
