@@ -223,7 +223,9 @@ PluginMgrImpl::ListOfPluginInfos PluginMgrImpl::loadPluginsFromConfig(
             assert(pluginInfoPtr->m_loader);
             auto* pluginPtr = getPlugin(*pluginInfoPtr->m_loader);
             assert(pluginPtr != nullptr);
-            pluginPtr->reconfigure(config);
+            if (config.contains(iid)) {
+                pluginPtr->reconfigure(config[iid].value<QVariantMap>());
+            }
 
             pluginInfos.push_back(*iter);
         }
@@ -343,7 +345,11 @@ QVariantMap PluginMgrImpl::getConfigForPlugins(
         assert(pluginInfoPtr->m_loader);
         auto* pluginPtr = getPlugin(*pluginInfoPtr->m_loader);
         assert(pluginPtr != nullptr);
-        pluginPtr->getCurrentConfig(config);
+        QVariantMap pluginConfig;
+        pluginPtr->getCurrentConfig(pluginConfig);
+        if (!pluginConfig.isEmpty()) {
+            config[pluginPtr->getIid()] = std::move(pluginConfig);
+        }
     }
 
     config.insert(PluginsKey, QVariant::fromValue(pluginsList));

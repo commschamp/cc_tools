@@ -38,6 +38,8 @@ namespace
 {
 
 const QString Iid("cc.TcpClientSocketPlugin");
+const QString HostKey("host");
+const QString PortKey("port");
 
 } // namespace 
 
@@ -70,6 +72,32 @@ TcpClientSocketPlugin::TcpClientSocketPlugin() :
 }
 
 TcpClientSocketPlugin::~TcpClientSocketPlugin() noexcept = default;
+
+const QString& TcpClientSocketPlugin::getIidImpl() const
+{
+    return Iid;
+}
+
+void TcpClientSocketPlugin::getCurrentConfigImpl(QVariantMap& config)
+{
+    config[HostKey] = QVariant::fromValue(m_integration->getHost());
+    config[PortKey] = QVariant::fromValue(m_integration->getPort());
+}
+
+void TcpClientSocketPlugin::reconfigureImpl(const QVariantMap& config)
+{
+    if (config.contains(HostKey)) {
+        m_integration->setHost(config[HostKey].value<QString>());
+    }
+
+    if (config.contains(PortKey)) {
+        m_integration->setPort(config[PortKey].value<TcpClientSocket::PortType>());
+    }
+
+    if (m_socket) {
+        applySocketConfiguration();
+    }
+}
 
 cc_tools::cc_plugin::PluginObjectPtr TcpClientSocketPlugin::createObjectImpl()
 {
@@ -139,21 +167,29 @@ void TcpClientSocketPlugin::portChanged(int value)
 
 void TcpClientSocketPlugin::createSocketIfNeeded()
 {
-    if (!m_socket) {
-        m_socket = makeTcpClientSocket();
-        m_socket->setHost(m_integration->getHost());
-        m_socket->setPort(m_integration->getPort());
-
-        m_socket->setDisconnectedReportCallback(
-            [this]()
-            {
-                m_integration->setConnected(false);
-
-                auto& pluginIntegration = cc_tools::cc_plugin::PluginIntegration::instance();
-                static const QString Src("qrc:/tcp_client_socket/qml/CC_TcpClientSocketDisconnectedDialog.qml");
-                pluginIntegration.activateDialog(Src);                
-            });
+    if (m_socket) {
+        return;
     }
+
+    m_socket = makeTcpClientSocket();
+    applySocketConfiguration();
+
+    m_socket->setDisconnectedReportCallback(
+        [this]()
+        {
+            m_integration->setConnected(false);
+
+            auto& pluginIntegration = cc_tools::cc_plugin::PluginIntegration::instance();
+            static const QString Src("qrc:/tcp_client_socket/qml/CC_TcpClientSocketDisconnectedDialog.qml");
+            pluginIntegration.activateDialog(Src);                
+        });
+}
+
+void TcpClientSocketPlugin::applySocketConfiguration()
+{
+    assert(m_socket);
+    m_socket->setHost(m_integration->getHost());
+    m_socket->setPort(m_integration->getPort());
 }
 
 } // namespace socket

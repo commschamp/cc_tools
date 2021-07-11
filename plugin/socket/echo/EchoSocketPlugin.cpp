@@ -37,6 +37,12 @@ EchoSocketPlugin::EchoSocketPlugin()
 
 EchoSocketPlugin::~EchoSocketPlugin() noexcept = default;
 
+const QString& EchoSocketPlugin::getIidImpl() const 
+{
+    static const QString Iid("cc.EchoSocketPlugin");
+    return Iid;
+}
+
 cc_tools::cc_plugin::PluginObjectPtr EchoSocketPlugin::createObjectImpl()
 {
     return makeEchoSocket();

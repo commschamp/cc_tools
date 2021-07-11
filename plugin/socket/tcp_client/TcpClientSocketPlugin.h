@@ -44,6 +44,9 @@ public:
     ~TcpClientSocketPlugin() noexcept;
 
 protected:
+    virtual const QString& getIidImpl() const override;
+    virtual void getCurrentConfigImpl(QVariantMap& config) override;
+    virtual void reconfigureImpl(const QVariantMap& config) override;
     virtual cc_tools::cc_plugin::PluginObjectPtr createObjectImpl() override;
     virtual const QString& getToolbarQmlElemImpl() const override;
     virtual void aboutToApplyImpl() override;
@@ -56,6 +59,7 @@ private slots:
 
 private:    
     void createSocketIfNeeded();
+    void applySocketConfiguration();
 
     TcpClientSocketPtr m_socket;  
     TcpClientSocketIntegrationObjPtr m_integration;  

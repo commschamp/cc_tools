@@ -3,8 +3,9 @@
 #include <algorithm>
 #include <iostream>
 
-#include "QtCore/QDir"
-#include "QtCore/QCoreApplication"
+#include <QtCore/QUrl>
+#include <QtCore/QDir>
+#include <QtCore/QCoreApplication>
 #include <QtQml/QQmlApplicationEngine>
 
 #include "cc_tools/cc_plugin/PluginIntegration.h"
@@ -47,6 +48,26 @@ QString getPluginsDir()
     return dir.path();
 }
 
+QStringList preparePluginsList(
+    const QString& socketIid,
+    const QStringList& filtersIids,
+    const QString& pluginIid)
+{
+    QStringList pluginIidsList;
+    if (!socketIid.isEmpty()) {
+        pluginIidsList.append(socketIid);
+    }
+
+    if (!filtersIids.isEmpty()) {
+        pluginIidsList.append(filtersIids);
+    }
+    
+    if (!pluginIid.isEmpty()) {
+        pluginIidsList.append(pluginIid);
+    }
+
+    return pluginIidsList;
+}
 
 } // namespace 
 
@@ -77,10 +98,7 @@ bool AppMgr::loadPlugins(
     const QStringList& filtersIids,
     const QString& pluginIid)
 {
-    QStringList pluginIidsList;
-    pluginIidsList.append(socketIid);
-    pluginIidsList.append(filtersIids);
-    pluginIidsList.append(pluginIid);
+    QStringList pluginIidsList = preparePluginsList(socketIid, filtersIids, pluginIid);
 
     GuiState::instance().setExtraToolbarElements(QStringList());
     m_pluginMgr.unloadApplied();
@@ -119,6 +137,17 @@ bool AppMgr::loadPlugins(
     return result;
 }
 
+bool AppMgr::savePluginsConfig(
+    const QString& filename,
+    const QString& socketIid,
+    const QStringList& filtersIids,
+    const QString& pluginIid)
+{
+    QStringList pluginIidsList = preparePluginsList(socketIid, filtersIids, pluginIid);
+    auto infos = getPluginInfos(pluginIidsList);
+    return m_pluginMgr.savePluginsToConfigFile(infos, QUrl(filename).path());
+}
+
 void AppMgr::newPluginIntegrationObject(QObject* obj)
 {
     QQmlEngine::setObjectOwnership(obj, QQmlEngine::CppOwnership);
@@ -137,7 +166,7 @@ AppMgr::AppMgr()
 
     connect(
         pluginIntegration, &cc_tools::cc_plugin::PluginIntegration::sigActivateDialog,
-        guiState, &GuiState::activateDialogByResource);    
+        guiState, &GuiState::activateDialogByResourceAppend);    
 
     connect(
         pluginIntegration, &cc_tools::cc_plugin::PluginIntegration::sigCloseCurrentDialog,

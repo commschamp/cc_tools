@@ -34,6 +34,12 @@ public:
         const QStringList& filtersIids,
         const QString& pluginIid);
 
+    Q_INVOKABLE bool savePluginsConfig(
+        const QString& filename,
+        const QString& socketIid,
+        const QStringList& filtersIids,
+        const QString& pluginIid);        
+
 private slots:
     void newPluginIntegrationObject(QObject* obj);        
 

@@ -104,7 +104,7 @@ RowLayout {
 
         ToolTip.delay: 1000
         ToolTip.timeout: 5000
-        ToolTip.visible: disconnectButton.hovered
+        ToolTip.visible: settingsButton.hovered
         ToolTip.text: qsTr("Configure Socket") + " (" + settingsShortcut.nativeText + ")";        
 
         onClicked: {

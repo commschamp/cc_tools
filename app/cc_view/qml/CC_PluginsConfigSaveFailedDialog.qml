@@ -6,12 +6,16 @@ import "qrc:/qml"
 
 MessageDialog {
     id: root
-    title: "Plugins Reload Error"
+    title: qsTr("Plugins Configuration Save Failed")
     standardButtons: StandardButton.Ok
     icon: StandardIcon.Critical
-    text: qsTr("Plugins reload failed");
+    text: qsTr("Saving plugin configuration has failed.");
 
     onAccepted: {
+        CC_GuiState.closeCurrentDialog();
+    }
+
+    onRejected: {
         CC_GuiState.closeCurrentDialog();
     }
 

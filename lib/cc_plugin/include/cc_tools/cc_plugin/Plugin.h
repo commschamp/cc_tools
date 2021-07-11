@@ -44,6 +44,7 @@ public:
     /// @brief Destructor
     virtual ~Plugin() noexcept;
 
+    const QString& getIid() const;
     void getCurrentConfig(QVariantMap& config);
     QVariantMap getCurrentConfig();
     void reconfigure(const QVariantMap& config);
@@ -54,6 +55,7 @@ public:
     const QString& getToolbarQmlElem() const;
 
 protected:
+    virtual const QString& getIidImpl() const = 0;
     virtual void getCurrentConfigImpl(QVariantMap& config);
     virtual void reconfigureImpl(const QVariantMap& config);
     virtual PluginObjectPtr createObjectImpl() = 0;

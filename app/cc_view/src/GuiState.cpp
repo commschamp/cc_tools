@@ -31,13 +31,15 @@ GuiState* GuiState::instancePtr()
     return &(instance());
 }
 
-void GuiState::activateDialog(DialogType type)
+void GuiState::activateDialog(DialogType type, bool pushFront)
 {
     static const QString Map[] = {
         /* DialogType_None */ EmptyStr,
         /* DialogType_PluginsSelection */ "qrc:/qml/CC_PluginsSelectDialog.qml",
         /* DialogType_PluginsReloadConfirmation */ "qrc:/qml/CC_PluginsReloadConfirmDialog.qml",
         /* DialogType_PluginsReloadError */ "qrc:/qml/CC_PluginsReloadErrorDialog.qml",
+        /* DialogType_PluginsConfigSave */ "qrc:/qml/CC_PluginsConfigSaveDialog.qml",
+        /* DialogType_PluginsConfigSaveFailed */ "qrc:/qml/CC_PluginsConfigSaveFailedDialog.qml",
     };
     static const std::size_t MapSize = std::extent<decltype(Map)>::value;
     static_assert(MapSize == DialogType_NumOfValues, "Invalid map");
@@ -48,15 +50,41 @@ void GuiState::activateDialog(DialogType type)
         return;
     }
 
-    activateDialogByResource(Map[idx]);
+    activateDialogByResource(Map[idx], pushFront);
 }
 
-void GuiState::activateDialogByResource(const QString& rsrc)
+void GuiState::activateDialogAppend(DialogType type)
 {
+    activateDialog(type, false);
+}
+
+void GuiState::activateDialogPrepend(DialogType type)
+{
+    activateDialog(type, true);
+}
+
+void GuiState::activateDialogByResource(const QString& rsrc, bool pushFront)
+{
+    if (pushFront) {
+        m_dialogsQueue.prepend(rsrc);
+        displayNextDialog();
+        return;
+    }
+
     m_dialogsQueue.append(rsrc);
     if (m_dialogsQueue.size() == 1) {
         displayNextDialog();
     }
+}
+
+void GuiState::activateDialogByResourceAppend(const QString& rsrc)
+{
+    activateDialogByResource(rsrc, false);
+}
+
+void GuiState::activateDialogByResourcePrepend(const QString& rsrc)
+{
+    activateDialogByResource(rsrc, true);
 }
 
 void GuiState::closeCurrentDialog()

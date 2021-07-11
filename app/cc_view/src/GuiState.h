@@ -31,6 +31,8 @@ public:
         DialogType_PluginsSelection,
         DialogType_PluginsReloadConfirmation,
         DialogType_PluginsReloadError,
+        DialogType_PluginsConfigSave,
+        DialogType_PluginsConfigSaveFailed,
         DialogType_NumOfValues
     };
     Q_ENUM(DialogType);
@@ -50,8 +52,12 @@ public:
     CC_MEMBER(QStringList, ExtraToolbarElements)
 
 public slots:
-    Q_INVOKABLE void activateDialog(DialogType type);
-    Q_INVOKABLE void activateDialogByResource(const QString& rsrc);
+    Q_INVOKABLE void activateDialog(DialogType type, bool pushFront = false);
+    Q_INVOKABLE void activateDialogAppend(DialogType type);
+    Q_INVOKABLE void activateDialogPrepend(DialogType type);    
+    Q_INVOKABLE void activateDialogByResource(const QString& rsrc, bool pushFront = false);
+    Q_INVOKABLE void activateDialogByResourceAppend(const QString& rsrc);    
+    Q_INVOKABLE void activateDialogByResourcePrepend(const QString& rsrc);
     Q_INVOKABLE void closeCurrentDialog();
 
 signals:

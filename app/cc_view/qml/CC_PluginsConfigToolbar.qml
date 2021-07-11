@@ -33,7 +33,26 @@ import "qrc:/qml"
                         openToolbutton.onClicked();
                     }
                 }
+            }
 
+            CC_ToolButton {
+                id: saveToolbutton
+                image.source: "qrc:/image/save_as.png"
+                tooltip.text: qsTr("Save") +  " (" + openShortcut.nativeText + ")";
+
+                onClicked: {
+                    console.log("!!!!Activating save dialog");
+                    CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginsConfigSave, true);
+                }            
+
+                Shortcut {
+                    id: saveShortcut
+                    sequence: "Ctrl+S"
+                    enabled: true
+                    onActivated: {
+                        saveToolbutton.onClicked();
+                    }
+                }
             }
         }
     }

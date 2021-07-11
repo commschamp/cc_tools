@@ -3,7 +3,10 @@
         <file>image/app_icon.png</file>
         <file>image/folder.png</file>
         <file>image/plugin_select.png</file>
+        <file>image/save_as.png</file>
         <file>qml/CC_AvailablePluginsLists.qml</file>
+        <file>qml/CC_PluginsConfigSaveDialog.qml</file>
+        <file>qml/CC_PluginsConfigSaveFailedDialog.qml</file>
         <file>qml/CC_PluginsConfigToolbar.qml</file>
         <file>qml/CC_PluginsListGroupBox.qml</file>
         <file>qml/CC_PluginsListView.qml</file>

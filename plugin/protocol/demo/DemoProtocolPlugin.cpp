@@ -37,6 +37,12 @@ DemoProtocolPlugin::DemoProtocolPlugin()
 
 DemoProtocolPlugin::~DemoProtocolPlugin() noexcept = default;
 
+const QString& DemoProtocolPlugin::getIidImpl() const
+{
+    static const QString Iid("cc.DemoProtocolPlugin");
+    return Iid;
+}
+
 cc_tools::cc_plugin::PluginObjectPtr DemoProtocolPlugin::createObjectImpl()
 {
     return makeDemoProtocol();

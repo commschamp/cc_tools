@@ -43,6 +43,7 @@ public:
     ~DemoProtocolPlugin() noexcept;
 
 protected:
+    virtual const QString& getIidImpl() const override;
     virtual cc_tools::cc_plugin::PluginObjectPtr createObjectImpl() override;
 };
 

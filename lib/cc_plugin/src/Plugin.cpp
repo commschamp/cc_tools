@@ -28,6 +28,11 @@ namespace cc_plugin
 Plugin::Plugin() = default;
 Plugin::~Plugin() noexcept = default;
 
+const QString& Plugin::getIid() const
+{
+    return getIidImpl();
+}
+
 void Plugin::getCurrentConfig(QVariantMap& config)
 {
     getCurrentConfigImpl(config);
