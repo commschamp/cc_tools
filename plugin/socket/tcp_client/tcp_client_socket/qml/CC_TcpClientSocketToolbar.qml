@@ -84,7 +84,7 @@ RowLayout {
         Layout.alignment: Qt.AlignVCenter
         display: ToolButton.IconOnly
         hoverEnabled: true
-        enabled: !integration.settingsDisplayed
+        enabled: (!integration.settingsDisplayed) && (!integration.connected);
         opacity: enabled ? 1.0 : 0.4
 
         Image {

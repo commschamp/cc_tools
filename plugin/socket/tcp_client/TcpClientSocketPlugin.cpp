@@ -56,7 +56,17 @@ TcpClientSocketPlugin::TcpClientSocketPlugin() :
     connect(
         m_integration.get(), &TcpClientSocketIntegrationObj::sigSettingsDisplayedChanged,
         this, &TcpClientSocketPlugin::configDialogReq
+    );   
+
+    connect(
+        m_integration.get(), &TcpClientSocketIntegrationObj::sigHostChanged,
+        this, &TcpClientSocketPlugin::hostChanged
     );    
+
+    connect(
+        m_integration.get(), &TcpClientSocketIntegrationObj::sigPortChanged,
+        this, &TcpClientSocketPlugin::portChanged
+    );        
 }
 
 TcpClientSocketPlugin::~TcpClientSocketPlugin() noexcept = default;
@@ -80,8 +90,6 @@ void TcpClientSocketPlugin::aboutToApplyImpl()
 
 void TcpClientSocketPlugin::socketConnectReq(bool value)
 {
-    // TODO:
-    std::cout << __FUNCTION__ << ": value=" << value << std::endl;
     createSocketIfNeeded();
     if (!value) {
         m_socket->socketDisconnect();
@@ -89,15 +97,19 @@ void TcpClientSocketPlugin::socketConnectReq(bool value)
     }
 
     if (!m_socket->socketConnect()) {
+        if (!m_integration->getConnected()) {
+            return;
+        }
+        
         // TODO: report error
-        std::cout << __FUNCTION__ << ": Failed to connect!!!!" << std::endl;
+        std::cout << __FUNCTION__ << ": Failed to connect to " << m_socket->getHost().toStdString() << ":" << m_socket->getPort() << std::endl;
+        m_integration->setConnected(false);
+        return;         
     }
 }
 
 void TcpClientSocketPlugin::configDialogReq(bool value)
 {
-    std::cout << __FUNCTION__ << ": value=" << value << std::endl;
-
     auto& pluginIntegration = cc_tools::cc_plugin::PluginIntegration::instance();
     if (!value) {
         pluginIntegration.closeCurrentDialog();
@@ -108,10 +120,34 @@ void TcpClientSocketPlugin::configDialogReq(bool value)
     pluginIntegration.activateDialog(Src);
 }
 
+void TcpClientSocketPlugin::hostChanged(const QString& value)
+{
+    if (m_socket) {
+        m_socket->setHost(value);
+    }
+}
+
+void TcpClientSocketPlugin::portChanged(int value)
+{
+    if (m_socket) {
+        m_socket->setPort(static_cast<TcpClientSocket::PortType>(value));
+    }
+}
+
+
 void TcpClientSocketPlugin::createSocketIfNeeded()
 {
     if (!m_socket) {
         m_socket = makeTcpClientSocket();
+        m_socket->setHost(m_integration->getHost());
+        m_socket->setPort(m_integration->getPort());
+
+        m_socket->setDisconnectedReportCallback(
+            [this]()
+            {
+                m_integration->setConnected(false);
+                // TODO: report socket disconnected
+            });
     }
 }
 

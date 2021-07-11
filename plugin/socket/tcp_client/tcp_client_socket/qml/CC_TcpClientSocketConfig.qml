@@ -31,11 +31,51 @@ ColumnLayout {
         }        
     }
 
+    RowLayout {
+        id: portRow
+        spacing: 6
+        Layout.fillWidth: true
+
+        Label {
+            text: qsTr("Port:")
+        }
+
+        Item {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+
+        SpinBox {
+            id: portValue
+            from: 0
+            to: 0xffff
+            wheelEnabled: true
+            editable: true
+            value: integration.port
+            Layout.minimumWidth: 80
+            contentItem: TextInput {
+                text: portValue.textFromValue(portValue.value, portValue.locale)
+                font: portValue.font
+                horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+                readOnly: !portValue.editable
+                validator: portValue.validator
+                inputMethodHints: Qt.ImhFormattedNumbersOnly
+
+            }     
+
+            valueFromText: function(text, locale) { 
+                return Number.fromLocaleString(locale, text); 
+            }      
+        }        
+    }    
+
     Connections {
         target: integration
         onSigApplyingChanged: {
-            console.log("!!! Applying!!!");
-            integration.host = hostText.text
+            portValue.value = portValue.valueFromText(portValue.contentItem.text, portValue.locale);
+            integration.host = hostText.text;
+            integration.port = portValue.value;
         }
     }
 }

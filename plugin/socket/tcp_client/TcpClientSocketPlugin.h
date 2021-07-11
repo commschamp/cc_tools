@@ -51,6 +51,8 @@ protected:
 private slots:
     void socketConnectReq(bool value);
     void configDialogReq(bool value);
+    void hostChanged(const QString& value);
+    void portChanged(int value);
 
 private:    
     void createSocketIfNeeded();
