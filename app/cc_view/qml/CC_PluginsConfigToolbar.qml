@@ -22,7 +22,7 @@ import "qrc:/qml"
                 tooltip.text: qsTr("Open") +  " (" + openShortcut.nativeText + ")";
 
                 onClicked: {
-                    console.log("TODO: plugin configuration open");
+                    CC_GuiState.activateDialogPrepend(CC_GuiState.DialogType_PluginsConfigLoad);
                 }            
 
                 Shortcut {
@@ -41,8 +41,7 @@ import "qrc:/qml"
                 tooltip.text: qsTr("Save") +  " (" + openShortcut.nativeText + ")";
 
                 onClicked: {
-                    console.log("!!!!Activating save dialog");
-                    CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginsConfigSave, true);
+                    CC_GuiState.activateDialogPrepend(CC_GuiState.DialogType_PluginsConfigSave);
                 }            
 
                 Shortcut {

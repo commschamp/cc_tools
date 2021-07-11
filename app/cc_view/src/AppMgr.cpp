@@ -148,6 +148,39 @@ bool AppMgr::savePluginsConfig(
     return m_pluginMgr.savePluginsToConfigFile(infos, QUrl(filename).path());
 }
 
+bool AppMgr::loadPluginsConfig(const QString& filename)
+{
+    auto infos = m_pluginMgr.loadPluginsFromConfigFile(QUrl(filename).path());
+
+    QString socket;
+    QString protocol;
+    QStringList filters;
+    for (auto iter = infos.begin(); iter != infos.end(); ++iter) {
+        auto& info = **iter;
+        if (socket.isEmpty() && (info.getType() == PluginMgr::PluginInfo::Type::Socket)) {
+            socket = info.getIid();
+            continue;
+        }
+
+        if (protocol.isEmpty() && (info.getType() == PluginMgr::PluginInfo::Type::Protocol)) {
+            protocol = info.getIid();
+            continue;
+        } 
+
+        if (info.getType() != PluginMgr::PluginInfo::Type::Filter) {
+            continue;
+        }       
+
+        filters.append(info.getIid());
+    }
+
+    auto& st = GuiState::instance();
+    st.setSelectedSocketPluginIid(socket);
+    st.setSelectedProtocolPluginIid(protocol);
+    st.setSelectedFilterPluginsIids(filters);
+    return true;
+}
+
 void AppMgr::newPluginIntegrationObject(QObject* obj)
 {
     QQmlEngine::setObjectOwnership(obj, QQmlEngine::CppOwnership);

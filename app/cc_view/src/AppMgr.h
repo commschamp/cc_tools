@@ -38,7 +38,9 @@ public:
         const QString& filename,
         const QString& socketIid,
         const QStringList& filtersIids,
-        const QString& pluginIid);        
+        const QString& pluginIid); 
+
+    Q_INVOKABLE bool loadPluginsConfig(const QString& filename);
 
 private slots:
     void newPluginIntegrationObject(QObject* obj);        

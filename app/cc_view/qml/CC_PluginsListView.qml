@@ -57,6 +57,7 @@ ColumnLayout {
                     var indexChanged = listView.currentIndex != index;
                     if (!indexChanged) {
                         listView.currentIndex = -1;    
+                        return;
                     }
 
                     listView.currentIndex = index;

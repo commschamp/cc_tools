@@ -33,6 +33,8 @@ public:
         DialogType_PluginsReloadError,
         DialogType_PluginsConfigSave,
         DialogType_PluginsConfigSaveFailed,
+        DialogType_PluginsConfigLoad,
+        DialogType_PluginsConfigLoadFailed,
         DialogType_NumOfValues
     };
     Q_ENUM(DialogType);

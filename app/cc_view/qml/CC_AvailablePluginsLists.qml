@@ -18,12 +18,18 @@ RowLayout {
         view.listView.width: forcedListWidth
 
         view.pluginType: CC_PluginListModel.Type_Socket
-        view.pluginIid: CC_GuiState.socketPluginIid
+        view.pluginIid: CC_GuiState.selectedSocketPluginIid !== "" ? CC_GuiState.selectedSocketPluginIid : CC_GuiState.socketPluginIid
 
         Connections {
             target: socketsList.view
             onPluginIidChanged: { 
                 CC_GuiState.selectedSocketPluginIid = socketsList.view.pluginIid;
+            }
+        }
+
+        Component.onCompleted: {
+            if (view.pluginIid !== "" && (CC_GuiState.selectedSocketPluginIid == "")) {
+                CC_GuiState.selectedSocketPluginIid = view.pluginIid;
             }
         }
     }
@@ -43,7 +49,7 @@ RowLayout {
         view.listView.width: forcedListWidth
 
         view.pluginType: CC_PluginListModel.Type_Protocol
-        view.pluginIid: CC_GuiState.protocolPluginIid
+        view.pluginIid: CC_GuiState.selectedProtocolPluginIid !== "" ? CC_GuiState.selectedProtocolPluginIid : CC_GuiState.protocolPluginIid
 
         Connections {
             target: protocolsList.view
@@ -52,6 +58,11 @@ RowLayout {
             }
         }
 
+        Component.onCompleted: {
+            if (view.pluginIid !== "" && (CC_GuiState.selectedProtocolPluginIid == "")) {
+                CC_GuiState.selectedProtocolPluginIid = view.pluginIid;
+            }
+        }
     }
 }
 

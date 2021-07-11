@@ -87,11 +87,17 @@ Dialogs.Dialog {
         CC_GuiState.socketPluginIid = CC_GuiState.selectedSocketPluginIid;
         CC_GuiState.filterPluginsIids = CC_GuiState.selectedFilterPluginsIids;
         CC_GuiState.protocolPluginIid = CC_GuiState.selectedProtocolPluginIid;
+        CC_GuiState.selectedSocketPluginIid = "";
+        CC_GuiState.selectedFilterPluginsIids = [];
+        CC_GuiState.selectedProtocolPluginIid = ""
         CC_GuiState.closeCurrentDialog();
     }
 
     onRejected: {
         console.log("rejected");
+        CC_GuiState.selectedSocketPluginIid = "";
+        CC_GuiState.selectedFilterPluginsIids = [];
+        CC_GuiState.selectedProtocolPluginIid = ""        
         CC_GuiState.closeCurrentDialog();
     } 
 

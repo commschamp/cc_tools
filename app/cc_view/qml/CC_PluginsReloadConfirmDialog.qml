@@ -27,10 +27,16 @@ MessageDialog {
             CC_GuiState.activateDialog(CC_GuiState.DialogType_PluginsReloadError);
         }
 
+        CC_GuiState.selectedSocketPluginIid = "";
+        CC_GuiState.selectedFilterPluginsIids = [];
+        CC_GuiState.selectedProtocolPluginIid = ""            
         CC_GuiState.closeCurrentDialog();
     }
 
     onNo: {
+        CC_GuiState.selectedSocketPluginIid = "";
+        CC_GuiState.selectedFilterPluginsIids = [];
+        CC_GuiState.selectedProtocolPluginIid = ""          
         CC_GuiState.closeCurrentDialog();
     }
 
