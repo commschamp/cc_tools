@@ -151,6 +151,10 @@ void TcpClientSocket::readFromSocket()
 
 void TcpClientSocket::socketErrorOccurred(QAbstractSocket::SocketError err)
 {
+    if (!isSocketConnected()) {
+        return;
+    }
+
     static_cast<void>(err);
     auto* socket = qobject_cast<QTcpSocket*>(sender());
     assert(socket != nullptr);

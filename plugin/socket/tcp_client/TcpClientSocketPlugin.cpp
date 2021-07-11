@@ -100,10 +100,12 @@ void TcpClientSocketPlugin::socketConnectReq(bool value)
         if (!m_integration->getConnected()) {
             return;
         }
-        
-        // TODO: report error
-        std::cout << __FUNCTION__ << ": Failed to connect to " << m_socket->getHost().toStdString() << ":" << m_socket->getPort() << std::endl;
+
         m_integration->setConnected(false);
+
+        auto& pluginIntegration = cc_tools::cc_plugin::PluginIntegration::instance();
+        static const QString Src("qrc:/tcp_client_socket/qml/CC_TcpClientSocketFailedToConnectDialog.qml");
+        pluginIntegration.activateDialog(Src);
         return;         
     }
 }
@@ -146,7 +148,10 @@ void TcpClientSocketPlugin::createSocketIfNeeded()
             [this]()
             {
                 m_integration->setConnected(false);
-                // TODO: report socket disconnected
+
+                auto& pluginIntegration = cc_tools::cc_plugin::PluginIntegration::instance();
+                static const QString Src("qrc:/tcp_client_socket/qml/CC_TcpClientSocketDisconnectedDialog.qml");
+                pluginIntegration.activateDialog(Src);                
             });
     }
 }

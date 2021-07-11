@@ -40,7 +40,6 @@ void Socket::stop()
 {
     if (m_connected) {
         socketDisconnect();
-        reportDisconnected();
     }
     m_running = false;
     stopImpl();
@@ -127,7 +126,7 @@ void Socket::reportError(const QString& msg)
 void Socket::reportDisconnected()
 {
     m_connected = false;
-    if (m_running && m_disconnectedReportCallback) {
+    if (m_disconnectedReportCallback) {
         m_disconnectedReportCallback();
     }
 }

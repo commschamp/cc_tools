@@ -57,11 +57,9 @@ ColumnLayout {
                     var indexChanged = listView.currentIndex != index;
                     if (!indexChanged) {
                         listView.currentIndex = -1;    
-                        root.selectedName = "";
                     }
 
                     listView.currentIndex = index;
-                    //root.selectedName = listView.model.getNameOf(index);
                     root.pluginIid = listView.model.getIidOf(index);
                 }
             }
