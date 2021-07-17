@@ -278,6 +278,10 @@ const QString& AppMgr::getPluginConfigQml(const QString& iid)
     static const QString DefaultConfigQml;
     const QString* configQml = &DefaultConfigQml;
     do {
+        if (iid.isEmpty()) {
+            break;
+        }
+        
         auto& availableInfos = m_pluginMgr.getAvailablePlugins();
         auto iter = findPluginInfo(availableInfos, iid);
         if (iter == availableInfos.end()) {

@@ -9,6 +9,7 @@ ColumnLayout {
 
     property string iid: "cc.TcpClientSocketPlugin"
     property var integration: CC_PluginIntegration.getIntegrationObject(iid);    
+    anchors.fill: parent
 
     RowLayout {
         id: hostRow
@@ -68,7 +69,12 @@ ColumnLayout {
                 return Number.fromLocaleString(locale, text); 
             }      
         }        
-    }    
+    }  
+
+    Item {
+        Layout.fillHeight: true
+        Layout.fillWidth: true
+    }      
 
     Connections {
         target: integration

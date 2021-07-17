@@ -9,58 +9,66 @@ RowLayout {
     spacing: 6
 
     readonly property int forcedListHeight: 150
-    readonly property int forcedListWidth: 200
+    readonly property int forcedConfigHeight: 200
+    readonly property int forcedListWidth: 300
 
-    CC_PluginsListGroupBox {
+    CC_PluginsListWithConfig {
         id: socketsList
-        title: "Available Sockets"
-        view.listView.height: forcedListHeight
-        view.listView.width: forcedListWidth
+        groupBox.title: "Available Sockets"
+        groupBox.view.listView.height: forcedListHeight
+        groupBox.view.listView.width: forcedListWidth
 
-        view.pluginType: CC_PluginListModel.Type_Socket
-        view.pluginIid: CC_GuiState.selectedSocketPluginIid !== "" ? CC_GuiState.selectedSocketPluginIid : CC_GuiState.socketPluginIid
+        groupBox.view.pluginType: CC_PluginListModel.Type_Socket
+        groupBox.view.pluginIid: CC_GuiState.selectedSocketPluginIid !== "" ? CC_GuiState.selectedSocketPluginIid : CC_GuiState.socketPluginIid
+
+        configLoader.source: CC_GuiState.selectedSocketPluginConfigQml
 
         Connections {
-            target: socketsList.view
+            target: socketsList.groupBox.view
             onPluginIidChanged: { 
-                CC_GuiState.selectedSocketPluginIid = socketsList.view.pluginIid;
+                CC_GuiState.selectedSocketPluginIid = socketsList.groupBox.view.pluginIid;
             }
         }
 
         Component.onCompleted: {
-            if (view.pluginIid !== "" && (CC_GuiState.selectedSocketPluginIid == "")) {
-                CC_GuiState.selectedSocketPluginIid = view.pluginIid;
+            if (groupBox.view.pluginIid !== "" && (CC_GuiState.selectedSocketPluginIid == "")) {
+                CC_GuiState.selectedSocketPluginIid = groupBox.view.pluginIid;
             }
         }
     }
 
-    CC_PluginsListGroupBox {
-        title: "Available Filters"
-        view.listView.height: forcedListHeight
-        view.listView.width: forcedListWidth
+    Repeater {
+        model: CC_GuiState.FilterPluginsIids > 1 ? CC_GuiState.FilterPluginsIids : 1
+        CC_PluginsListWithConfig {
+            groupBox.title: "Available Filters"
+            groupBox.view.listView.height: forcedListHeight
+            groupBox.view.listView.width: forcedListWidth
 
-        view.pluginType: CC_PluginListModel.Type_Filter
+            groupBox.view.pluginType: CC_PluginListModel.Type_Filter
+        }
     }
 
-    CC_PluginsListGroupBox {
+    CC_PluginsListWithConfig {
         id: protocolsList
-        title: "Available Protocols"
-        view.listView.height: forcedListHeight
-        view.listView.width: forcedListWidth
+        groupBox.title: "Available Protocols"
+        groupBox.view.listView.height: forcedListHeight
+        groupBox.view.listView.width: forcedListWidth
 
-        view.pluginType: CC_PluginListModel.Type_Protocol
-        view.pluginIid: CC_GuiState.selectedProtocolPluginIid !== "" ? CC_GuiState.selectedProtocolPluginIid : CC_GuiState.protocolPluginIid
+        groupBox.view.pluginType: CC_PluginListModel.Type_Protocol
+        groupBox.view.pluginIid: CC_GuiState.selectedProtocolPluginIid !== "" ? CC_GuiState.selectedProtocolPluginIid : CC_GuiState.protocolPluginIid
+
+        configLoader.source: CC_GuiState.selectedProtocolPluginConfigQml
 
         Connections {
-            target: protocolsList.view
+            target: protocolsList.groupBox.view
             onPluginIidChanged: { 
-                CC_GuiState.selectedProtocolPluginIid = protocolsList.view.pluginIid;
+                CC_GuiState.selectedProtocolPluginIid = protocolsList.groupBox.view.pluginIid;
             }
         }
 
         Component.onCompleted: {
-            if (view.pluginIid !== "" && (CC_GuiState.selectedProtocolPluginIid == "")) {
-                CC_GuiState.selectedProtocolPluginIid = view.pluginIid;
+            if (groupBox.view.pluginIid !== "" && (CC_GuiState.selectedProtocolPluginIid == "")) {
+                CC_GuiState.selectedProtocolPluginIid = groupBox.view.pluginIid;
             }
         }
     }

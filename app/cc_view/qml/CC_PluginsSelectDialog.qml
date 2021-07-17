@@ -105,7 +105,8 @@ Dialogs.Dialog {
         visible = true;
 
         // Hacky width adjustement, otherwise the dialog hides the right edge
-        width = contentItem.implicitWidth + 16;
+        width = Qt.binding(function() { return mainLayout.implicitWidth + 24; })
+        //width = mainLayout.implicitWidth + 16;
     }
 }
 
