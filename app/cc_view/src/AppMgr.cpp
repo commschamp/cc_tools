@@ -69,6 +69,19 @@ QStringList preparePluginsList(
     return pluginIidsList;
 }
 
+AppMgr::ListOfPluginInfos::const_iterator findPluginInfo(
+    const AppMgr::ListOfPluginInfos& list,
+    const QString& iid)
+{
+    return 
+        std::find_if(
+            list.begin(), list.end(),
+            [&iid](auto& p)
+            {
+                return iid == p->getIid();
+            });
+}
+
 } // namespace 
 
 
@@ -186,6 +199,27 @@ void AppMgr::newPluginIntegrationObject(QObject* obj)
     QQmlEngine::setObjectOwnership(obj, QQmlEngine::CppOwnership);
 }
 
+void AppMgr::selectedSocketPluginIidChanged(const QString& value)
+{
+    QString configQml = getPluginConfigQml(value);
+    GuiState::instance().setSelectedSocketPluginConfigQml(configQml);
+}
+
+void AppMgr::selectedProtocolPluginIidChanged(const QString& value)
+{
+    QString configQml = getPluginConfigQml(value);
+    GuiState::instance().setSelectedProtocolPluginConfigQml(configQml);
+}
+
+void AppMgr::selectedFilterPluginsIidsChanged(const QStringList& values)
+{
+    QStringList configQmls;
+    for (auto& v : values) {
+        configQmls.append(getPluginConfigQml(v));
+    }
+    GuiState::instance().setSelectedFilterPluginConfigQmls(configQmls);
+}
+
 AppMgr::AppMgr()
 {
     m_pluginMgr.setPluginsDir(getPluginsDir());
@@ -203,7 +237,22 @@ AppMgr::AppMgr()
 
     connect(
         pluginIntegration, &cc_tools::cc_plugin::PluginIntegration::sigCloseCurrentDialog,
-        guiState, &GuiState::closeCurrentDialog);        
+        guiState, &GuiState::closeCurrentDialog); 
+
+    connect(
+        guiState, &GuiState::sigSelectedSocketPluginIidChanged,
+        this, &AppMgr::selectedSocketPluginIidChanged
+    );
+
+    connect(
+        guiState, &GuiState::sigSelectedProtocolPluginIidChanged,
+        this, &AppMgr::selectedProtocolPluginIidChanged
+    ); 
+
+    connect(
+        guiState, &GuiState::sigSelectedFilterPluginsIidsChanged,
+        this, &AppMgr::selectedFilterPluginsIidsChanged
+    );     
 }
 
 AppMgr::ListOfPluginInfos AppMgr::getPluginInfos(const QStringList& pluginIids)
@@ -212,14 +261,7 @@ AppMgr::ListOfPluginInfos AppMgr::getPluginInfos(const QStringList& pluginIids)
     auto& availableInfos = m_pluginMgr.getAvailablePlugins();
 
     for (auto& p : pluginIids) {
-        auto iter = 
-            std::find_if(
-                availableInfos.begin(), availableInfos.end(),
-                [&p](auto& info)
-                {
-                    return p == info->getIid();
-                });
-
+        auto iter = findPluginInfo(availableInfos, p);
         if (iter == availableInfos.end()) {
             std::cerr << "ERROR: Failed to find plugin " << p.toStdString() << std::endl;
             assert(!"Should not happen");
@@ -229,6 +271,34 @@ AppMgr::ListOfPluginInfos AppMgr::getPluginInfos(const QStringList& pluginIids)
         result.push_back(*iter);
     }
     return result;
+}
+
+const QString& AppMgr::getPluginConfigQml(const QString& iid)
+{
+    static const QString DefaultConfigQml;
+    const QString* configQml = &DefaultConfigQml;
+    do {
+        auto& availableInfos = m_pluginMgr.getAvailablePlugins();
+        auto iter = findPluginInfo(availableInfos, iid);
+        if (iter == availableInfos.end()) {
+            assert(!"Should not happen");
+            break;
+        }
+
+        auto* pl = m_pluginMgr.loadPlugin(**iter);
+        if (pl == nullptr) {
+            assert(!"Should not happen");
+            break;
+        }
+
+        configQml = &(pl->getConfigQmlElem());
+    } while (false);
+
+    if (configQml->isEmpty()) {
+        configQml = &DefaultConfigQml;
+    }
+
+    return *configQml;
 }
 
 

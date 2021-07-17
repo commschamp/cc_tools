@@ -44,11 +44,15 @@ public:
 
 private slots:
     void newPluginIntegrationObject(QObject* obj);        
+    void selectedSocketPluginIidChanged(const QString& value);
+    void selectedProtocolPluginIidChanged(const QString& value);
+    void selectedFilterPluginsIidsChanged(const QStringList& values);
 
 private:
     AppMgr();
 
     ListOfPluginInfos getPluginInfos(const QStringList& pluginIids);
+    const QString& getPluginConfigQml(const QString& iid);
 
     PluginMgr m_pluginMgr;
 };

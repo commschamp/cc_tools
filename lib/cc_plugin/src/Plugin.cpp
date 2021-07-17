@@ -67,6 +67,11 @@ const QString& Plugin::getToolbarQmlElem() const
     return getToolbarQmlElemImpl();
 }
 
+const QString& Plugin::getConfigQmlElem() const
+{
+    return getConfigQmlElemImpl();
+}
+
 void Plugin::getCurrentConfigImpl(QVariantMap& config)
 {
     static_cast<void>(config);
@@ -78,6 +83,12 @@ void Plugin::reconfigureImpl(const QVariantMap& config)
 }
 
 const QString& Plugin::getToolbarQmlElemImpl() const
+{
+    static const QString Str;
+    return Str;
+}
+
+const QString& Plugin::getConfigQmlElemImpl() const
 {
     static const QString Str;
     return Str;

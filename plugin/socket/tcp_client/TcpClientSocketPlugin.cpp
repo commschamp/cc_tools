@@ -111,6 +111,12 @@ const QString& TcpClientSocketPlugin::getToolbarQmlElemImpl() const
     return Str;
 }
 
+const QString& TcpClientSocketPlugin::getConfigQmlElemImpl() const
+{
+    static const QString Str("qrc:/tcp_client_socket/qml/CC_TcpClientSocketConfig.qml");
+    return Str;
+}
+
 void TcpClientSocketPlugin::aboutToApplyImpl()
 {
     m_integration->setApplying(true);

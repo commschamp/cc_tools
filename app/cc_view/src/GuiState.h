@@ -23,6 +23,9 @@ class GuiState : public QObject
     Q_PROPERTY(QStringList filterPluginsIids READ getFilterPluginsIids WRITE setFilterPluginsIids NOTIFY sigFilterPluginsIidsChanged)
     Q_PROPERTY(QStringList selectedFilterPluginsIids READ getSelectedFilterPluginsIids WRITE setSelectedFilterPluginsIids NOTIFY sigSelectedFilterPluginsIidsChanged)
     Q_PROPERTY(QStringList extraToolbarElements READ getExtraToolbarElements WRITE setExtraToolbarElements NOTIFY sigExtraToolbarElementsChanged)
+    Q_PROPERTY(QString selectedSocketPluginConfigQml READ getSelectedSocketPluginConfigQml WRITE setSelectedSocketPluginConfigQml NOTIFY sigSelectedSocketPluginConfigQmlChanged)
+    Q_PROPERTY(QString selectedProtocolPluginConfigQml READ getSelectedProtocolPluginConfigQml WRITE setSelectedProtocolPluginConfigQml NOTIFY sigSelectedProtocolPluginConfigQmlChanged)
+    Q_PROPERTY(QStringList selectedDilterPluginConfigQmls READ getSelectedFilterPluginConfigQmls WRITE setSelectedFilterPluginConfigQmls NOTIFY sigSelectedFilterPluginConfigQmlsChanged)
     
 public:
     enum DialogType 
@@ -52,6 +55,9 @@ public:
     CC_MEMBER(QStringList, FilterPluginsIids)
     CC_MEMBER(QStringList, SelectedFilterPluginsIids)
     CC_MEMBER(QStringList, ExtraToolbarElements)
+    CC_MEMBER(QString, SelectedSocketPluginConfigQml)
+    CC_MEMBER(QString, SelectedProtocolPluginConfigQml)
+    CC_MEMBER(QStringList, SelectedFilterPluginConfigQmls)
 
 public slots:
     Q_INVOKABLE void activateDialog(DialogType type, bool pushFront = false);
@@ -71,6 +77,9 @@ signals:
     void sigFilterPluginsIidsChanged(const QStringList& value);
     void sigSelectedFilterPluginsIidsChanged(const QStringList& value);
     void sigExtraToolbarElementsChanged(const QStringList& value);
+    void sigSelectedSocketPluginConfigQmlChanged(const QString& value);    
+    void sigSelectedProtocolPluginConfigQmlChanged(const QString& value);    
+    void sigSelectedFilterPluginConfigQmlsChanged(const QStringList& value);
 
 private:
     GuiState(); 

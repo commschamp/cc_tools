@@ -53,6 +53,7 @@ public:
     PluginObjectPtr createObject();
 
     const QString& getToolbarQmlElem() const;
+    const QString& getConfigQmlElem() const;
 
 protected:
     virtual const QString& getIidImpl() const = 0;
@@ -60,6 +61,7 @@ protected:
     virtual void reconfigureImpl(const QVariantMap& config);
     virtual PluginObjectPtr createObjectImpl() = 0;
     virtual const QString& getToolbarQmlElemImpl() const;
+    virtual const QString& getConfigQmlElemImpl() const;
     virtual void aboutToApplyImpl();
 };
 
