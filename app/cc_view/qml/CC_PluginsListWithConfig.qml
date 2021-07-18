@@ -15,15 +15,14 @@ ColumnLayout {
 
     CC_PluginsListGroupBox {
         id: groupBox
+        Layout.fillWidth: true
     }
 
     GroupBox {
         id: configGroupBox
         title: qsTr("Configuration")
-        Layout.minimumWidth: groupBox.width
+        //Layout.minimumWidth: groupBox.width
         Layout.fillWidth: true
-
-        property int forcedMinHeight: 0
 
         label: Label {
             x: configGroupBox.leftPadding
@@ -37,7 +36,7 @@ ColumnLayout {
         }
 
         ColumnLayout {
-            Layout.fillWidth: true
+            anchors.fill: parent
             ScrollView {
                 Layout.fillWidth: true
                 Layout.minimumHeight: 200

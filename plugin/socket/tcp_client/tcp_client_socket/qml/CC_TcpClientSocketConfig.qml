@@ -9,7 +9,7 @@ ColumnLayout {
 
     property string iid: "cc.TcpClientSocketPlugin"
     property var integration: CC_PluginIntegration.getIntegrationObject(iid);    
-    anchors.fill: parent
+    //anchors.fill: parent
 
     RowLayout {
         id: hostRow

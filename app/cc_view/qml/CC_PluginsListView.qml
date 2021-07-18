@@ -87,27 +87,5 @@ ColumnLayout {
                 }
             }
         }
-
-        // function updateIid() {
-        //     var iidStr = "";
-        //     do {
-        //         if (currentIndex < 0) {
-        //             break;
-        //         }
-
-        //         var searchStrTmp = searchStr.toLowerCase();
-        //         if (model.getNameOf(currentIndex).toLowerCase() != searchStrTmp) {
-        //             break;
-        //         }
-
-        //         iidStr = model.getIidOf(currentIndex);
-        //     } while (false);
-
-        //     pluginIid = iidStr;
-        // }
     }
 }
-
-//     onSearchStrChanged: {
-//         listView.updateSelection();
-//     }
