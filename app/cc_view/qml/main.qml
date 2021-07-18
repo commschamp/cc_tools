@@ -6,15 +6,35 @@ import CC 1.0
 import "qrc:/qml"
 
 ApplicationWindow {
+    id: root
     visible: true
     visibility: "Maximized"
     title: qsTr("CommsChampion View")
 
     header: CC_Toolbar {}
 
-    Label {
-        text: qsTr("NYI")
-        anchors.centerIn: parent
+    RowLayout {
+        anchors.margins: 5
+        anchors.fill: parent
+        spacing: 5
+        ColumnLayout {
+            Layout.fillHeight: true
+            spacing: 5
+            CC_ExchangedMessages {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+
+            CC_MessagesToSend {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+        }
+
+        CC_MessageInfo {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
     }
 
     Loader {

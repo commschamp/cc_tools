@@ -27,31 +27,29 @@ Dialogs.Dialog {
             id: availablePlugins
         }
 
-        ColumnLayout {
-            //width: 200
-            TextField {
-                id: socketText
-                placeholderText: qsTr("Socket") + " (" + socketShortcut.sequence + ")"
-                //text: CC_GuiState.socketPluginName
+        // ColumnLayout {
+        //     TextField {
+        //         id: socketText
+        //         placeholderText: qsTr("Socket") + " (" + socketShortcut.sequence + ")"
+        //         //text: CC_GuiState.socketPluginName
 
-                Shortcut {
-                    id: socketShortcut
-                    sequence: "Alt+S"
-                    onActivated: socketText.forceActiveFocus();
-                }
-            }
+        //         Shortcut {
+        //             id: socketShortcut
+        //             sequence: "Alt+S"
+        //             onActivated: socketText.forceActiveFocus();
+        //         }
+        //     }
 
-            TextField {
-                id: protocolText
-                placeholderText: qsTr("Protocol")
-                //text: CC_GuiState.protocolPluginName
+        //     TextField {
+        //         id: protocolText
+        //         placeholderText: qsTr("Protocol")
 
-                Shortcut {
-                    sequence: "Alt+P"
-                    onActivated: protocolText.forceActiveFocus();
-                }
-            }                
-        }
+        //         Shortcut {
+        //             sequence: "Alt+P"
+        //             onActivated: protocolText.forceActiveFocus();
+        //         }
+        //     }                
+        // }
     }
 
     onAccepted: {

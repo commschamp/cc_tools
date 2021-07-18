@@ -1,10 +1,16 @@
 <RCC>
     <qresource prefix="/">
+        <file>image/add.png</file>
         <file>image/app_icon.png</file>
         <file>image/folder.png</file>
         <file>image/plugin_select.png</file>
         <file>image/save_as.png</file>
         <file>qml/CC_AvailablePluginsLists.qml</file>
+        <file>qml/CC_BackgroundRectangle.qml</file>
+        <file>qml/CC_ExchangedMessages.qml</file>
+        <file>qml/CC_ExchangedMessagesToolbar.qml</file>
+        <file>qml/CC_MessageInfo.qml</file>
+        <file>qml/CC_MessagesToSend.qml</file>
         <file>qml/CC_PluginsConfigLoadDialog.qml</file>
         <file>qml/CC_PluginsConfigLoadFailedDialog.qml</file>
         <file>qml/CC_PluginsConfigSaveDialog.qml</file>
