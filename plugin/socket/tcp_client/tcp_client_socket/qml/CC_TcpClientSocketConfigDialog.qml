@@ -17,7 +17,7 @@ Dialogs.Dialog {
 
     onAccepted: {
         console.log("Accepted");
-        integration.applying = true;
+        integration.applyConfig();
         integration.settingsDisplayed = false;
     }
 

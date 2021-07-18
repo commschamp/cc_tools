@@ -62,6 +62,11 @@ PluginObjectPtr Plugin::createObject()
     return obj;
 }
 
+void Plugin::releaseObject()
+{
+    releaseObjectImpl();
+}
+
 const QString& Plugin::getToolbarQmlElem() const
 {
     return getToolbarQmlElemImpl();

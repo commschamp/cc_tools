@@ -48,6 +48,10 @@ cc_tools::cc_plugin::PluginObjectPtr EchoSocketPlugin::createObjectImpl()
     return makeEchoSocket();
 }
 
+void EchoSocketPlugin::releaseObjectImpl()
+{
+}
+
 } // namespace socket
 
 }  // namespace cc_plugin

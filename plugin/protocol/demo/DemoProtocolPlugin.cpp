@@ -48,6 +48,10 @@ cc_tools::cc_plugin::PluginObjectPtr DemoProtocolPlugin::createObjectImpl()
     return makeDemoProtocol();
 }
 
+void DemoProtocolPlugin::releaseObjectImpl()
+{
+}
+
 } // namespace protocol
 
 }  // namespace cc_plugin

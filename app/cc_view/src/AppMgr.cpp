@@ -114,7 +114,10 @@ bool AppMgr::loadPlugins(
     QStringList pluginIidsList = preparePluginsList(socketIid, filtersIids, pluginIid);
 
     GuiState::instance().setExtraToolbarElements(QStringList());
-    m_pluginMgr.unloadApplied();
+    for (auto& appliedPlugin : m_pluginMgr.getAvailablePlugins()) {
+        auto* plugin = m_pluginMgr.loadPlugin(*appliedPlugin);
+        plugin->releaseObject();
+    }
 
     auto infos = getPluginInfos(pluginIidsList);
 
@@ -147,6 +150,7 @@ bool AppMgr::loadPlugins(
         GuiState::instance().setExtraToolbarElements(toolbarElems);
     }
 
+    m_pluginMgr.unloadNotApplied();
     return result;
 }
 
@@ -281,7 +285,7 @@ const QString& AppMgr::getPluginConfigQml(const QString& iid)
         if (iid.isEmpty()) {
             break;
         }
-        
+
         auto& availableInfos = m_pluginMgr.getAvailablePlugins();
         auto iter = findPluginInfo(availableInfos, iid);
         if (iter == availableInfos.end()) {

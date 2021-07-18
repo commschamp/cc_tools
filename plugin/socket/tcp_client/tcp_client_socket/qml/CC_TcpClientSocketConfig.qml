@@ -28,7 +28,11 @@ ColumnLayout {
         TextField {
             id: hostText
             placeholderText: qsTr("localhost");
-            text: integration.host
+            text: integration.appliedHost
+
+            onTextChanged: {
+                integration.host = text
+            }
         }        
     }
 
@@ -52,7 +56,7 @@ ColumnLayout {
             to: 0xffff
             wheelEnabled: true
             editable: true
-            value: integration.port
+            value: integration.appliedPort
             Layout.minimumWidth: 80
             contentItem: TextInput {
                 text: portValue.textFromValue(portValue.value, portValue.locale)
@@ -63,11 +67,19 @@ ColumnLayout {
                 validator: portValue.validator
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
 
+                onTextChanged: {
+                    portValue.value = portValue.valueFromText(text, Qt.locale());
+                }
+
             }     
 
             valueFromText: function(text, locale) { 
                 return Number.fromLocaleString(locale, text); 
-            }      
+            } 
+
+            onValueChanged: {
+                integration.port = value;
+            }  
         }        
     }  
 
@@ -75,14 +87,5 @@ ColumnLayout {
         Layout.fillHeight: true
         Layout.fillWidth: true
     }      
-
-    Connections {
-        target: integration
-        onSigApplyingChanged: {
-            portValue.value = portValue.valueFromText(portValue.contentItem.text, portValue.locale);
-            integration.host = hostText.text;
-            integration.port = portValue.value;
-        }
-    }
 }
 

@@ -61,12 +61,12 @@ TcpClientSocketPlugin::TcpClientSocketPlugin() :
     );   
 
     connect(
-        m_integration.get(), &TcpClientSocketIntegrationObj::sigHostChanged,
+        m_integration.get(), &TcpClientSocketIntegrationObj::sigAppliedHostChanged,
         this, &TcpClientSocketPlugin::hostChanged
     );    
 
     connect(
-        m_integration.get(), &TcpClientSocketIntegrationObj::sigPortChanged,
+        m_integration.get(), &TcpClientSocketIntegrationObj::sigAppliedPortChanged,
         this, &TcpClientSocketPlugin::portChanged
     );        
 }
@@ -105,6 +105,11 @@ cc_tools::cc_plugin::PluginObjectPtr TcpClientSocketPlugin::createObjectImpl()
     return m_socket;
 }
 
+void TcpClientSocketPlugin::releaseObjectImpl()
+{
+    m_socket.reset();
+}
+
 const QString& TcpClientSocketPlugin::getToolbarQmlElemImpl() const
 {
     static const QString Str("qrc:/tcp_client_socket/qml/CC_TcpClientSocketToolbar.qml");
@@ -119,7 +124,7 @@ const QString& TcpClientSocketPlugin::getConfigQmlElemImpl() const
 
 void TcpClientSocketPlugin::aboutToApplyImpl()
 {
-    m_integration->setApplying(true);
+    m_integration->applyConfig();
 }
 
 void TcpClientSocketPlugin::socketConnectReq(bool value)

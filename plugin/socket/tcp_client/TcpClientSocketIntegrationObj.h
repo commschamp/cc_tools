@@ -36,10 +36,11 @@ class TcpClientSocketIntegrationObj : public QObject
     using Base = QObject;
 
     Q_PROPERTY(QString host READ getHost WRITE setHost NOTIFY sigHostChanged);
+    Q_PROPERTY(QString appliedHost READ getAppliedHost WRITE setAppliedHost NOTIFY sigAppliedHostChanged);
     Q_PROPERTY(unsigned short port READ getPort WRITE setPort NOTIFY sigPortChanged);
+    Q_PROPERTY(unsigned short appliedPort READ getAppliedPort WRITE setAppliedPort NOTIFY sigAppliedPortChanged);
     Q_PROPERTY(bool connected READ getConnected WRITE setConnected NOTIFY sigConnectedChanged);
     Q_PROPERTY(bool settingsDisplayed READ getSettingsDisplayed WRITE setSettingsDisplayed NOTIFY sigSettingsDisplayedChanged);
-    Q_PROPERTY(bool applying READ getApplying WRITE setApplying NOTIFY sigApplyingChanged);
 
 public:
     typedef unsigned short PortType;
@@ -50,8 +51,14 @@ public:
     void setHost(const QString& value);
     const QString& getHost() const;
 
+    void setAppliedHost(const QString& value);
+    const QString& getAppliedHost() const;    
+
     void setPort(PortType value);
     PortType getPort() const;
+
+    void setAppliedPort(PortType value);
+    PortType getAppliedPort() const;    
 
     void setConnected(bool value);
     bool getConnected() const;
@@ -59,22 +66,24 @@ public:
     void setSettingsDisplayed(bool value);
     bool getSettingsDisplayed() const;
 
-    void setApplying(bool value);
-    bool getApplying() const;
+    Q_INVOKABLE void applyConfig();
 
 signals:
     void sigHostChanged(const QString& value);
+    void sigAppliedHostChanged(const QString& value);
     void sigPortChanged(PortType value);  
+    void sigAppliedPortChanged(PortType value);  
     void sigConnectedChanged(bool value); 
     void sigSettingsDisplayedChanged(bool value); 
     void sigApplyingChanged(bool value);
 
 private:
     QString m_host;
+    QString m_appliedHost;
     PortType m_port = 0;
+    PortType m_appliedPort = 0;
     bool m_connected = false;
     bool m_settingsDisplayed = false;
-    bool m_applying = false;
 };
 
 using TcpClientSocketIntegrationObjPtr = std::unique_ptr<TcpClientSocketIntegrationObj>;

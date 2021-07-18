@@ -48,6 +48,7 @@ protected:
     virtual void getCurrentConfigImpl(QVariantMap& config) override;
     virtual void reconfigureImpl(const QVariantMap& config) override;
     virtual cc_tools::cc_plugin::PluginObjectPtr createObjectImpl() override;
+    virtual void releaseObjectImpl() override;
     virtual const QString& getToolbarQmlElemImpl() const override;
     virtual const QString& getConfigQmlElemImpl() const override;
     virtual void aboutToApplyImpl() override;

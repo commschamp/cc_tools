@@ -48,6 +48,21 @@ const QString& TcpClientSocketIntegrationObj::getHost() const
     return m_host;
 }
 
+void TcpClientSocketIntegrationObj::setAppliedHost(const QString& value)
+{
+    if (m_appliedHost == value) {
+        return;
+    }
+
+    m_appliedHost = value;
+    emit sigAppliedHostChanged(m_appliedHost);
+}
+
+const QString& TcpClientSocketIntegrationObj::getAppliedHost() const
+{
+    return m_appliedHost;
+}
+
 void TcpClientSocketIntegrationObj::setPort(PortType value)
 {
     if (m_port == value) {
@@ -61,6 +76,21 @@ void TcpClientSocketIntegrationObj::setPort(PortType value)
 TcpClientSocketIntegrationObj::PortType TcpClientSocketIntegrationObj::getPort() const
 {
     return m_port;
+}
+
+void TcpClientSocketIntegrationObj::setAppliedPort(PortType value)
+{
+    if (m_appliedPort == value) {
+        return;
+    }
+
+    m_appliedPort = value;
+    emit sigAppliedPortChanged(m_appliedPort);
+}
+
+TcpClientSocketIntegrationObj::PortType TcpClientSocketIntegrationObj::getAppliedPort() const
+{
+    return m_appliedPort;
 }
 
 void TcpClientSocketIntegrationObj::setConnected(bool value)
@@ -93,17 +123,11 @@ bool TcpClientSocketIntegrationObj::getSettingsDisplayed() const
     return m_settingsDisplayed;
 }
 
-void TcpClientSocketIntegrationObj::setApplying(bool value)
+void TcpClientSocketIntegrationObj::applyConfig()
 {
-    m_applying = value;
-    emit sigApplyingChanged(m_applying);
+    setAppliedHost(getHost());
+    setAppliedPort(getPort());
 }
-
-bool TcpClientSocketIntegrationObj::getApplying() const
-{
-    return m_applying;
-}
-
 
 } // namespace socket
 

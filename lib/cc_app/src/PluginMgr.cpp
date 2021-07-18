@@ -91,15 +91,11 @@ bool PluginMgr::isProtocolChanging(const ListOfPluginInfos& infos) const
     return m_impl->isProtocolChanging(infos);
 }
 
-void PluginMgr::unloadApplied()
+void PluginMgr::unloadNotApplied()
 {
-    m_impl->unloadApplied();
+    m_impl->unloadNotApplied();
 }
 
-bool PluginMgr::unloadAppliedPlugin(const PluginInfo& info)
-{
-    return m_impl->unloadAppliedPlugin(info);
-}
 
 QVariantMap PluginMgr::getConfigForPlugins(
     const ListOfPluginInfos& infos)

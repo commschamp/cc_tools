@@ -295,42 +295,49 @@ bool PluginMgrImpl::isProtocolChanging(const ListOfPluginInfos& infos) const
     return newProtocol != appliedProtocol;
 }
 
-void PluginMgrImpl::unloadApplied()
+void PluginMgrImpl::unloadNotApplied()
 {
-    for (auto& pluginInfo : m_appliedPlugins) {
-        assert(pluginInfo);
-        assert(pluginInfo->m_loader);
-        assert (pluginInfo->m_loader->isLoaded());
-        aboutToUnloadPlugin(pluginInfo->m_iid);
-        pluginInfo->m_loader->unload();
+    for (auto& p : m_plugins) {
+        auto& iid = p->getIid();
+        bool unload = 
+            std::none_of(
+                m_appliedPlugins.begin(), m_appliedPlugins.end(),
+                [&iid](auto& appliedInfo) 
+                {
+                    return iid == appliedInfo->getIid();
+                });
+
+        if (unload) {
+            aboutToUnloadPlugin(iid);
+            p->m_loader->unload();            
+        }
     }
-    m_appliedPlugins.clear();
 }
 
-bool PluginMgrImpl::unloadAppliedPlugin(const PluginInfo& info)
-{
-    auto iter =
-        std::find_if(
-            m_appliedPlugins.begin(), m_appliedPlugins.end(),
-            [&info](const PluginInfoPtr& ptr) -> bool
-            {
-                return ptr.get() == &info;
-            });
+// bool PluginMgrImpl::unloadAppliedPlugin(const PluginInfo& info)
+// {
+//     auto iter =
+//         std::find_if(
+//             m_appliedPlugins.begin(), m_appliedPlugins.end(),
+//             [&info](const PluginInfoPtr& ptr) -> bool
+//             {
+//                 return ptr.get() == &info;
+//             });
 
-    if (iter == m_appliedPlugins.end()) {
-        return false;
-    }
+//     if (iter == m_appliedPlugins.end()) {
+//         return false;
+//     }
 
-    auto pluginInfoPtr = *iter;
-    m_appliedPlugins.erase(iter);
+//     auto pluginInfoPtr = *iter;
+//     m_appliedPlugins.erase(iter);
 
-    assert(pluginInfoPtr);
-    assert(pluginInfoPtr->m_loader);
-    assert (pluginInfoPtr->m_loader->isLoaded());
-    aboutToUnloadPlugin(pluginInfoPtr->m_iid);
-    pluginInfoPtr->m_loader->unload();
-    return true;
-}
+//     assert(pluginInfoPtr);
+//     assert(pluginInfoPtr->m_loader);
+//     assert (pluginInfoPtr->m_loader->isLoaded());
+//     aboutToUnloadPlugin(pluginInfoPtr->m_iid);
+//     pluginInfoPtr->m_loader->unload();
+//     return true;
+// }
 
 QVariantMap PluginMgrImpl::getConfigForPlugins(
     const ListOfPluginInfos& infos)
